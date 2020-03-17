@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dimension_18">18dp</dimen>
+    <dimen name="content_margin_small">4dp</dimen>
+    <dimen name="dimens_40">40dp</dimen>
+    <dimen name="dimens_10">10dp</dimen>
+</resources>

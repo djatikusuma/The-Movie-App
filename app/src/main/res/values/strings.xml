@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">The Movie Apps</string>
+    <string name="label_movies">Movies</string>
+    <string name="label_tvshows">TV Shows</string>
+    <string name="detail_label">Detail</string>
+    <string name="label_overview">Overview</string>
+</resources>
