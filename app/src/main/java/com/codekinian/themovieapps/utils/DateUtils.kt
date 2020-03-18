@@ -10,7 +10,7 @@ object DateUtils {
         return if (!date.isNullOrEmpty()) {
             val parser = SimpleDateFormat("yyyy-M-dd")
             val formatter = SimpleDateFormat("MMM dd, yyyy")
-            formatter.format(parser.parse(date))
+            formatter.format(parser.parse(date)!!)
         } else {
             "-"
         }
