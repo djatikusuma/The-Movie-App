@@ -34,7 +34,7 @@ class TvshowTabAdapter(
 
             containerView?.context.let {
                 containerView?.setOnClickListener {
-                    tv.id.let { id -> onClick(id) }
+                    onClick(tv.id)
                 }
             }
         }

@@ -33,7 +33,7 @@ class MovieTabAdapter(
 
             containerView?.context.let {
                 containerView?.setOnClickListener {
-                    movie.id.let { id -> onClick(id) }
+                    onClick(movie.id)
                 }
             }
         }
