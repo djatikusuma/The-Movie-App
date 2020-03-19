@@ -1,10 +1,10 @@
-package com.codekinian.themovieapps.model
+package com.codekinian.themovieapps.model.data
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Movie(
+data class Tvshow(
     val id: Int,
     val poster_path: Int?,
     val title: String?,

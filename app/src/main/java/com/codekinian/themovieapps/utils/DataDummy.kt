@@ -1,8 +1,8 @@
 package com.codekinian.themovieapps.utils
 
 import com.codekinian.themovieapps.R
-import com.codekinian.themovieapps.model.Movie
-import com.codekinian.themovieapps.model.Tvshow
+import com.codekinian.themovieapps.model.data.Movie
+import com.codekinian.themovieapps.model.data.Tvshow
 
 object DataDummy {
     fun generateDummyMovies(): List<Movie> {

@@ -4,4 +4,7 @@
     <string name="label_tvshows">TV Shows</string>
     <string name="detail_label">Detail</string>
     <string name="label_overview">Overview</string>
+    <string name="label_now_playing">Now Playing</string>
+    <string name="label_upcoming">Upcoming</string>
+    <string name="label_popular">Popular</string>
 </resources>

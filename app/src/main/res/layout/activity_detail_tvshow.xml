@@ -7,7 +7,7 @@
 
         <variable
             name="tv"
-            type="com.codekinian.themovieapps.model.Tvshow" />
+            type="com.codekinian.themovieapps.model.data.Tvshow" />
     </data>
 
     <androidx.core.widget.NestedScrollView

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.codekinian.themovieapps.databinding.TvshowItemBinding
-import com.codekinian.themovieapps.model.Tvshow
+import com.codekinian.themovieapps.model.data.Tvshow
 import kotlinx.android.extensions.LayoutContainer
 
 class TvshowTabAdapter(

@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: "kotlin-kapt"
 
+apply plugin: 'androidx.navigation.safeargs'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -24,10 +26,28 @@ android {
         enabled = true
     }
 
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions 'server'
+
+    productFlavors {
+        dev {
+            dimension = 'server'
+            buildConfigField 'String', 'ENDPOINT_URL', '"https://api.themoviedb.org/3/"'
+            buildConfigField 'String', 'IMAGE_URL', '"https://image.tmdb.org/t/p/"'
+            buildConfigField 'String', 'KEY', '"7bb288bb1cd4e320e390252b6592710b"'
+            resValue "string", "authority", "com.codekinian.themovieapps.authority"
+            resValue 'string', 'images_file_path', "Android/data/" + applicationId + "/files/Pictures"
         }
     }
 
@@ -43,7 +63,14 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-common-java8:$archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$archLifecycleVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //Navigation component
+    implementation "androidx.navigation:navigation-fragment:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui:$navigationVersion"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
     //ui
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -53,6 +80,12 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "com.github.bumptech.glide:glide:$glideVersion"
+
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3Version"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp3Version"
 
     //testing
     implementation 'androidx.appcompat:appcompat:1.1.0'

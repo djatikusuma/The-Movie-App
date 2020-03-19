@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.codekinian.themovieapps.databinding.MovieItemBinding
-import com.codekinian.themovieapps.model.Movie
+import com.codekinian.themovieapps.model.data.Movie
 import kotlinx.android.extensions.LayoutContainer
 
 class MovieTabAdapter(
