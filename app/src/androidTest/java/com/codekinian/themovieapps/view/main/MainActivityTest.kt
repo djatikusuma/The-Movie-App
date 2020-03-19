@@ -9,6 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import com.codekinian.themovieapps.R
 import com.codekinian.themovieapps.utils.DataDummy
+import org.hamcrest.Matchers.allOf
 import org.junit.Rule
 import org.junit.Test
 
@@ -21,8 +22,8 @@ class MainActivityTest {
 
     @Test
     fun canLoadDataAndScrollDataMoviesInMovieTab() {
-        onView(withId(R.id.rv_movies)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_movies)).perform(
+        onView(allOf(withId(R.id.rv_movies), isDisplayed()))
+        onView(allOf(withId(R.id.rv_movies), isDisplayed())).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
                 dummyMovie.size
             )
@@ -30,8 +31,60 @@ class MainActivityTest {
     }
 
     @Test
+    fun canLoadDataAndScrollDataMoviesInPopularMovieTab() {
+        onView(withText("POPULAR")).perform(click())
+        onView(allOf(withId(R.id.rv_movies), isDisplayed()))
+        onView(allOf(withId(R.id.rv_movies), isDisplayed())).perform(
+            RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
+                dummyMovie.size
+            )
+        )
+    }
+
+    @Test
+    fun canOpenDetailWhenClickCardInListPopularMovies() {
+        onView(withText("POPULAR")).perform(click())
+        onView(allOf(withId(R.id.rv_movies), isDisplayed())).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                5,
+                click()
+            )
+        )
+        onView(withId(R.id.title_movie)).check(matches(isDisplayed()))
+        onView(withId(R.id.title_movie)).check(matches(withText(dummyMovie[5].title)))
+        onView(withId(R.id.description_movie)).check(matches(isDisplayed()))
+        onView(withId(R.id.description_movie)).check(matches(withText(dummyMovie[5].description)))
+    }
+
+    @Test
+    fun canLoadDataAndScrollDataMoviesInUpcomingMovieTab() {
+        onView(withText("UPCOMING")).perform(click())
+        onView(allOf(withId(R.id.rv_movies), isDisplayed()))
+        onView(allOf(withId(R.id.rv_movies), isDisplayed())).perform(
+            RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
+                dummyMovie.size
+            )
+        )
+    }
+
+    @Test
+    fun canOpenDetailWhenClickCardInListUpcomingMovies() {
+        onView(withText("POPULAR")).perform(click())
+        onView(allOf(withId(R.id.rv_movies), isDisplayed())).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                7,
+                click()
+            )
+        )
+        onView(withId(R.id.title_movie)).check(matches(isDisplayed()))
+        onView(withId(R.id.title_movie)).check(matches(withText(dummyMovie[7].title)))
+        onView(withId(R.id.description_movie)).check(matches(isDisplayed()))
+        onView(withId(R.id.description_movie)).check(matches(withText(dummyMovie[7].description)))
+    }
+
+    @Test
     fun canOpenDetailWhenClickCardInListMovies() {
-        onView(withId(R.id.rv_movies)).perform(
+        onView(allOf(withId(R.id.rv_movies), isDisplayed())).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                 2,
                 click()
@@ -45,7 +98,7 @@ class MainActivityTest {
 
     @Test
     fun canChangeTabThenLoadDataAndScrollDataTvShowsInTvShowsTab() {
-        onView(withText("TV SHOWS")).perform(click())
+        onView(withId(R.id.navigation_tvshow)).perform(click())
         onView(withId(R.id.rv_tvshow)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_tvshow)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
@@ -56,7 +109,7 @@ class MainActivityTest {
 
     @Test
     fun canOpenDetailWhenClickCardInListTvshows() {
-        onView(withText("TV SHOWS")).perform(click())
+        onView(withId(R.id.navigation_tvshow)).perform(click())
         onView(withId(R.id.rv_tvshow)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_tvshow)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(

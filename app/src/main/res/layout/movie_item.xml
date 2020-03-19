@@ -60,7 +60,7 @@
                         android:layout_weight="0.4"
                         android:background="@drawable/gradient_accent_color"
                         android:gravity="center"
-                        android:text="@{movie.percentage +`%`}"
+                        android:text="@{movie.vote_average}"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         android:textStyle="bold" />

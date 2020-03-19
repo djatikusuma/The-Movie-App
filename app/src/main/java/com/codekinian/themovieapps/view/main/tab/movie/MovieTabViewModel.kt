@@ -1,10 +1,10 @@
 package com.codekinian.themovieapps.view.main.tab.movie
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.codekinian.themovieapps.model.data.Movie
-import com.codekinian.themovieapps.utils.DataDummy
 
-class MovieTabViewModel : ViewModel() {
-    // Get All Movies Data
-    val movies: List<Movie> = DataDummy.generateDummyMovies()
+class MovieTabViewModel(private val repository: MovieTabRepository) : ViewModel() {
+    // Get All Now Movies Data
+    val nowPlaying: LiveData<Movie.MovieResult> = repository.getNowPlaying()
 }

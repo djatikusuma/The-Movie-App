@@ -8,16 +8,9 @@ import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.codekinian.themovieapps.R
-import com.codekinian.themovieapps.utils.getViewModel
 import kotlinx.android.synthetic.main.movie_tab_fragment.*
 
 class MovieTabFragment : Fragment() {
-    private val viewModel by lazy {
-        getViewModel {
-            MovieTabViewModel()
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

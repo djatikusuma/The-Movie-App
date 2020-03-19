@@ -9,7 +9,7 @@ object DataDummy {
         return listOf(
             Movie(
                 1,
-                R.drawable.movie_a_start_is_born,
+                "R.drawable.movie_a_start_is_born",
                 "A Star Is Born",
                 "2018-10-05",
                 "Seasoned musician Jackson Maine discovers — and…",
@@ -18,7 +18,7 @@ object DataDummy {
             ),
             Movie(
                 2,
-                R.drawable.movie_alita,
+                "R.drawable.movie_alita",
                 "Alita: Battle Angle",
                 "2019-01-31",
                 "When Alita awakens with no memory of who she is in…",
@@ -27,7 +27,7 @@ object DataDummy {
             ),
             Movie(
                 3,
-                R.drawable.movie_aquaman,
+                "R.drawable.movie_aquaman",
                 "Aquaman",
                 "2018-12-07",
                 "Once home to the most advanced civilization on Earth...",
@@ -36,7 +36,7 @@ object DataDummy {
             ),
             Movie(
                 4,
-                R.drawable.movie_bohemian,
+                "R.drawable.movie_bohemian",
                 "Bohemian Rhapsody",
                 "2018-10-24",
                 "Singer Freddie Mercury, guitarist Brian May...",
@@ -45,7 +45,7 @@ object DataDummy {
             ),
             Movie(
                 5,
-                R.drawable.movie_cold_persuit,
+                "R.drawable.movie_cold_persuit",
                 "Cold Persuit",
                 "2019-02-07",
                 "The quiet family life of Nels Coxman, a snowplow...",
@@ -54,7 +54,7 @@ object DataDummy {
             ),
             Movie(
                 6,
-                R.drawable.movie_creed,
+                "R.drawable.movie_creed",
                 "Creed",
                 "2015-11-25",
                 "The former World Heavyweight Champion Rocky Balboa...",
@@ -63,7 +63,7 @@ object DataDummy {
             ),
             Movie(
                 7,
-                R.drawable.movie_crimes,
+                "R.drawable.movie_crimes",
                 "Fantastic Beasts: The Crimes of Grindelwald",
                 "2018-11-14",
                 "Gellert Grindelwald has escaped imprisonment and has...",
@@ -72,7 +72,7 @@ object DataDummy {
             ),
             Movie(
                 8,
-                R.drawable.movie_glass,
+                "R.drawable.movie_glass",
                 "Glass",
                 "2019-01-16",
                 "In a series of escalating encounters, former security...",
@@ -81,7 +81,7 @@ object DataDummy {
             ),
             Movie(
                 9,
-                R.drawable.movie_how_to_train,
+                "R.drawable.movie_how_to_train",
                 "How To Train Your Dragon: The Hidden World",
                 "2019-01-03",
                 "As Hiccup fulfills his dream of creating a peaceful...",
@@ -90,7 +90,7 @@ object DataDummy {
             ),
             Movie(
                 10,
-                R.drawable.movie_infinity_war,
+                "R.drawable.movie_infinity_war",
                 "Avengers: Infinity War",
                 "2018-04-25",
                 "As the Avengers and their allies have continued to...",

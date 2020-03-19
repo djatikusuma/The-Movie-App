@@ -43,8 +43,8 @@ android {
     productFlavors {
         dev {
             dimension = 'server'
-            buildConfigField 'String', 'ENDPOINT_URL', '"https://api.themoviedb.org/3/"'
-            buildConfigField 'String', 'IMAGE_URL', '"https://image.tmdb.org/t/p/"'
+            buildConfigField 'String', 'ENDPOINT_URL', '"http://api.themoviedb.org/3/"'
+            buildConfigField 'String', 'IMAGE_URL', '"http://image.tmdb.org/t/p/"'
             buildConfigField 'String', 'KEY', '"7bb288bb1cd4e320e390252b6592710b"'
             resValue "string", "authority", "com.codekinian.themovieapps.authority"
             resValue 'string', 'images_file_path', "Android/data/" + applicationId + "/files/Pictures"

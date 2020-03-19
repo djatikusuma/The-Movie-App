@@ -9,15 +9,22 @@ import com.codekinian.themovieapps.model.data.Movie
 import kotlinx.android.extensions.LayoutContainer
 
 class MovieTabAdapter(
-    private val movies: List<Movie>,
     private val onClick: (Int) -> Unit
 ) : RecyclerView.Adapter<MovieTabAdapter.ViewHolder>() {
+    private val movies = ArrayList<Movie>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
     override fun getItemCount(): Int = movies.size
+
+    fun updateData(newList: List<Movie>?) {
+        if (newList == null) return
+        movies.clear()
+        movies.addAll(newList)
+        notifyDataSetChanged()
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItem(movies[position])

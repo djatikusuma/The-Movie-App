@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 
 inline fun <reified T : Any> Activity.launchActivity(
     requestCode: Int = -1,
@@ -37,3 +39,15 @@ inline fun <reified T : Any> Context.launchActivity(
 
 inline fun <reified T : Any> newIntent(context: Context): Intent =
     Intent(context, T::class.java)
+
+fun View.hide() {
+    visibility = View.GONE
+}
+
+fun View.show() {
+    visibility = View.VISIBLE
+}
+
+fun Activity.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(this, message, length).show()
+}
