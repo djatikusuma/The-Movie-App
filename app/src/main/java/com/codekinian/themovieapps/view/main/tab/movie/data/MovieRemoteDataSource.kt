@@ -22,4 +22,6 @@ class MovieRemoteDataSource(private val service: ApiRoute) : BaseDataSource() {
 
     suspend fun getUpcoming() = getResult { service.upcomingMovie() }
 
+    suspend fun getDetailMovie(movieId: Int) = getResult { service.detailMovie(movieId) }
+
 }

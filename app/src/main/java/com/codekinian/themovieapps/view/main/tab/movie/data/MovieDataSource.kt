@@ -7,4 +7,5 @@ interface MovieDataSource {
     fun getNowPlaying(): LiveData<Movie.MovieResult>
     fun getPopular(): LiveData<Movie.MovieResult>
     fun getUpcoming(): LiveData<Movie.MovieResult>
+    fun getDetailMovie(movieId: Int): LiveData<Movie>
 }

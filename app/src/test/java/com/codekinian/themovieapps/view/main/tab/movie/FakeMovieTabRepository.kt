@@ -56,5 +56,19 @@ class FakeMovieTabRepository(
         return movieResult
     }
 
+    override fun getDetailMovie(movieId: Int): LiveData<Movie> {
+        val movieResult = MutableLiveData<Movie>()
+        scope.launch {
+            val response = remoteData.getDetailMovie(movieId)
+            if (response.status == Status.SUCCESS) {
+                response.data?.let {
+                    movieResult.postValue(it)
+                }
+            }
+        }
+
+        return movieResult
+    }
+
 
 }
