@@ -1,11 +1,13 @@
 package com.codekinian.themovieapps.network
 
 import com.codekinian.themovieapps.model.response.Result
+import com.codekinian.themovieapps.utils.EspressoIdlingResource
 import retrofit2.Response
 
 abstract class BaseDataSource {
 
     protected suspend fun <T> getResult(call: suspend () -> Response<T>): Result<T> {
+        EspressoIdlingResource.increment()
         try {
             val response = call()
             if (response.isSuccessful) {
