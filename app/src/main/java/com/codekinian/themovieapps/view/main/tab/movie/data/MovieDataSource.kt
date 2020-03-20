@@ -5,4 +5,6 @@ import com.codekinian.themovieapps.model.data.Movie
 
 interface MovieDataSource {
     fun getNowPlaying(): LiveData<Movie.MovieResult>
+    fun getPopular(): LiveData<Movie.MovieResult>
+    fun getUpcoming(): LiveData<Movie.MovieResult>
 }

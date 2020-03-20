@@ -6,6 +6,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.codekinian.themovieapps.R
 import com.codekinian.themovieapps.view.main.tab.movie.viewpager.NowPlayingFragment
+import com.codekinian.themovieapps.view.main.tab.movie.viewpager.PopularFragment
+import com.codekinian.themovieapps.view.main.tab.movie.viewpager.UpcomingFragment
 
 class MovieViewPager(
     viewPagerManager: FragmentManager,
@@ -16,8 +18,8 @@ class MovieViewPager(
 ) {
     override fun getItem(position: Int): Fragment = when (position) {
         0 -> NowPlayingFragment()
-        1 -> NowPlayingFragment()
-        else -> NowPlayingFragment()
+        1 -> PopularFragment()
+        else -> UpcomingFragment()
     }
 
     override fun getCount(): Int = 3

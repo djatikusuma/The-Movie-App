@@ -9,23 +9,10 @@ import com.codekinian.themovieapps.view.main.tab.movie.data.MovieRemoteDataSourc
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class MovieTabRepository private constructor(
+class FakeMovieTabRepository(
     private val remoteData: MovieRemoteDataSource,
     private val scope: CoroutineScope
 ) : MovieDataSource {
-
-    companion object {
-        @Volatile
-        private var instance: MovieTabRepository? = null
-
-        fun getInstance(
-            remoteData: MovieRemoteDataSource,
-            scope: CoroutineScope
-        ): MovieTabRepository =
-            instance ?: synchronized(this) {
-                instance ?: MovieTabRepository(remoteData, scope)
-            }
-    }
 
     override fun getNowPlaying(): LiveData<Movie.MovieResult> {
         val movieResult = MutableLiveData<Movie.MovieResult>()

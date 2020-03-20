@@ -1,6 +1,5 @@
 package com.codekinian.themovieapps.network
 
-import android.util.Log
 import com.codekinian.themovieapps.model.response.Result
 import retrofit2.Response
 
@@ -9,7 +8,6 @@ abstract class BaseDataSource {
     protected suspend fun <T> getResult(call: suspend () -> Response<T>): Result<T> {
         try {
             val response = call()
-            Log.e("hasilyaya", response.toString())
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) return Result.success(body)

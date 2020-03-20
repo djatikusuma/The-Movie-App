@@ -7,11 +7,11 @@ import androidx.databinding.DataBindingUtil
 import com.codekinian.themovieapps.R
 import com.codekinian.themovieapps.databinding.ActivityDetailMovieBinding
 import com.codekinian.themovieapps.utils.Constant.Companion.MOVIE_ID
-import com.codekinian.themovieapps.utils.getViewModel
+import com.codekinian.themovieapps.utils.injectViewModel
 
 class DetailMovieActivity : AppCompatActivity() {
     private val viewModel by lazy {
-        getViewModel {
+        injectViewModel {
             DetailMovieViewModel()
         }
     }

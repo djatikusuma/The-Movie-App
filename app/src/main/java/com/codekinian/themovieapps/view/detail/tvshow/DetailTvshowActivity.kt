@@ -7,11 +7,11 @@ import androidx.databinding.DataBindingUtil
 import com.codekinian.themovieapps.R
 import com.codekinian.themovieapps.databinding.ActivityDetailTvshowBinding
 import com.codekinian.themovieapps.utils.Constant
-import com.codekinian.themovieapps.utils.getViewModel
+import com.codekinian.themovieapps.utils.injectViewModel
 
 class DetailTvshowActivity : AppCompatActivity() {
     private val viewModel by lazy {
-        getViewModel {
+        injectViewModel {
             DetailTvshowViewModel()
         }
     }

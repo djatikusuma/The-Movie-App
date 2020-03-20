@@ -46,16 +46,9 @@ class MovieTabFragment : Fragment() {
                     indicator.layoutParams = params
                 }
 
-                override fun onPageSelected(position: Int) {
-//                    toolbar.title = when (position) {
-//                        0 -> context.getString(R.string.label_movies)
-//                        else -> context.getString(R.string.label_tvshows)
-//                    }
-                }
+                override fun onPageSelected(position: Int) {}
 
-                override fun onPageScrollStateChanged(state: Int) {
-
-                }
+                override fun onPageScrollStateChanged(state: Int) {}
             })
         }
     }

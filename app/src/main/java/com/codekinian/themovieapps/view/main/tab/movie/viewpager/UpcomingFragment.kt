@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.movie_viewpager_fragment.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
-class NowPlayingFragment : Fragment() {
+class UpcomingFragment : Fragment() {
     private val viewModel by lazy {
         injectViewModel {
             val remoteDataSource = MovieRemoteDataSource.getInstance(BaseApi().api)
@@ -48,7 +48,7 @@ class NowPlayingFragment : Fragment() {
                 putExtra(Constant.MOVIE_ID, it)
             }
         }
-        viewModel.nowPlaying.observeForever { movies ->
+        viewModel.upcoming.observeForever { movies ->
             adapterMovies.updateData(movies.results)
         }
 

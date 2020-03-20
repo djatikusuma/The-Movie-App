@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-inline fun <reified T : ViewModel> Fragment.getViewModel(noinline creator: (() -> T)? = null): T {
+inline fun <reified T : ViewModel> Fragment.injectViewModel(noinline creator: (() -> T)? = null): T {
     return if (creator == null) {
         ViewModelProvider(this)[T::class.java]
     } else {
@@ -13,7 +13,7 @@ inline fun <reified T : ViewModel> Fragment.getViewModel(noinline creator: (() -
     }
 }
 
-inline fun <reified T : ViewModel> FragmentActivity.getViewModel(noinline creator: (() -> T)? = null): T {
+inline fun <reified T : ViewModel> FragmentActivity.injectViewModel(noinline creator: (() -> T)? = null): T {
     return if (creator == null) {
         ViewModelProvider(this)[T::class.java]
     } else {

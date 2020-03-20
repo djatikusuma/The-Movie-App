@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.codekinian.themovieapps.R
 import com.codekinian.themovieapps.utils.Constant
-import com.codekinian.themovieapps.utils.getViewModel
+import com.codekinian.themovieapps.utils.injectViewModel
 import com.codekinian.themovieapps.utils.launchActivity
 import com.codekinian.themovieapps.view.detail.tvshow.DetailTvshowActivity
 import kotlinx.android.synthetic.main.tvshow_tab_fragment.*
@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.tvshow_tab_fragment.*
 class TvshowTabFragment : Fragment() {
 
     private val viewModel by lazy {
-        getViewModel {
+        injectViewModel {
             TvshowTabViewModel()
         }
     }
