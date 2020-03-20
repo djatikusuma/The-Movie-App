@@ -8,9 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.codekinian.themovieapps.R
 import com.codekinian.themovieapps.network.BaseApi
-import com.codekinian.themovieapps.utils.Constant
-import com.codekinian.themovieapps.utils.injectViewModel
-import com.codekinian.themovieapps.utils.launchActivity
+import com.codekinian.themovieapps.utils.*
 import com.codekinian.themovieapps.view.detail.movie.DetailMovieActivity
 import com.codekinian.themovieapps.view.main.tab.movie.MovieTabAdapter
 import com.codekinian.themovieapps.view.main.tab.movie.MovieTabRepository
@@ -48,7 +46,10 @@ class UpcomingFragment : Fragment() {
                 putExtra(Constant.MOVIE_ID, it)
             }
         }
+
+        progress_circular.show()
         viewModel.upcoming.observeForever { movies ->
+            progress_circular.hide()
             adapterMovies.updateData(movies.results)
         }
 
