@@ -7,8 +7,8 @@ import kotlinx.android.parcel.Parcelize
 data class Tvshow(
     val id: Int,
     val poster_path: String?,
-    val title: String?,
-    val release_date: String?,
+    val name: String?,
+    val first_air_date: String?,
     val overview: String?,
     val description: String?,
     val vote_average: String?,

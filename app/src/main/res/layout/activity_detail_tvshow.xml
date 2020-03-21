@@ -64,9 +64,10 @@
                         android:layout_alignParentBottom="true"
                         android:background="@drawable/gradient_accent_color"
                         android:gravity="center"
-                        android:text="@string/label_tvshows"
+                        android:text="@{tv.status}"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_tiny"
                         android:textStyle="bold|italic" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -97,7 +98,7 @@
                 android:layout_marginTop="@dimen/dimension_18"
                 android:layout_marginEnd="@dimen/dimens_10"
                 android:gravity="start"
-                android:text="@{tv.title}"
+                android:text="@{tv.name}"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
@@ -128,7 +129,7 @@
                 android:layout_marginStart="@dimen/dimension_18"
                 android:layout_marginTop="@dimen/dimens_10"
                 android:layout_marginEnd="@dimen/dimension_18"
-                android:text="@{tv.description}"
+                android:text="@{tv.overview}"
                 app:layout_constraintTop_toBottomOf="@+id/textView2"
                 tools:layout_editor_absoluteX="18dp" />
 

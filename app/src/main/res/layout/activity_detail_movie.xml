@@ -64,9 +64,10 @@
                         android:layout_alignParentBottom="true"
                         android:background="@drawable/gradient_accent_color"
                         android:gravity="center"
-                        android:text="@string/label_movies"
+                        android:text="@{movie.status}"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_tiny"
                         android:textStyle="bold|italic" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>

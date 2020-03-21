@@ -6,13 +6,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.codekinian.themovieapps.R
 import com.codekinian.themovieapps.databinding.ActivityDetailTvshowBinding
+import com.codekinian.themovieapps.network.BaseApi
 import com.codekinian.themovieapps.utils.Constant
 import com.codekinian.themovieapps.utils.injectViewModel
+import com.codekinian.themovieapps.view.main.tab.tvshow.TvshowTabRepository
+import com.codekinian.themovieapps.view.main.tab.tvshow.data.TvshowRemoteDataSource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 class DetailTvshowActivity : AppCompatActivity() {
     private val viewModel by lazy {
         injectViewModel {
-            DetailTvshowViewModel()
+            val remoteDataSource = TvshowRemoteDataSource.getInstance(BaseApi().api)
+            DetailTvshowViewModel(
+                TvshowTabRepository.getInstance(
+                    remoteDataSource, CoroutineScope(
+                        Dispatchers.IO
+                    )
+                )
+            )
         }
     }
 
@@ -33,7 +45,9 @@ class DetailTvshowActivity : AppCompatActivity() {
     private fun createView() {
         val tvId = intent.getIntExtra(Constant.TV_ID, 0)
         viewBinding.lifecycleOwner = this
-        viewBinding.tv = viewModel.getDetailTv(tvId)
+        viewModel.detailTv(tvId).observeForever {
+            viewBinding.tv = it
+        }
     }
 
     private fun setToolbar() {
