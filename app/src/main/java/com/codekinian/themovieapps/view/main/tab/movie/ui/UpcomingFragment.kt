@@ -1,4 +1,4 @@
-package com.codekinian.themovieapps.view.main.tab.movie.viewpager
+package com.codekinian.themovieapps.view.main.tab.movie.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

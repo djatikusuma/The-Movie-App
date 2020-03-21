@@ -1,6 +1,5 @@
 package com.codekinian.themovieapps.utils
 
-import com.codekinian.themovieapps.R
 import com.codekinian.themovieapps.model.data.Movie
 import com.codekinian.themovieapps.model.data.Tvshow
 
@@ -106,7 +105,7 @@ object DataDummy {
         return listOf(
             Tvshow(
                 1,
-                R.drawable.tv_arrow,
+                "R.drawable.tv_arrow",
                 "The Arrow",
                 "2012-10-10",
                 "Spoiled billionaire playboy Oliver Queen is missing…",
@@ -115,7 +114,7 @@ object DataDummy {
             ),
             Tvshow(
                 2,
-                R.drawable.tv_iron_fist,
+                "R.drawable.tv_iron_fist",
                 "Marvel's Iron Fist",
                 "2017-03-17",
                 "Danny Rand resurfaces 15 years after being presumed…",
@@ -124,7 +123,7 @@ object DataDummy {
             ),
             Tvshow(
                 3,
-                R.drawable.tv_dragon_ball,
+                "R.drawable.tv_dragon_ball",
                 "Dragon Ball",
                 "1986-02-26",
                 "Long ago in the mountains, a fighting master known...",
@@ -133,7 +132,7 @@ object DataDummy {
             ),
             Tvshow(
                 4,
-                R.drawable.tv_fairytail,
+                "R.drawable.tv_fairytail",
                 "Fairy Tail",
                 "2009-10-12",
                 "Lucy is a 17-year-old girl, who wants to be a full...",
@@ -142,7 +141,7 @@ object DataDummy {
             ),
             Tvshow(
                 5,
-                R.drawable.tv_family_guy,
+                "R.drawable.tv_family_guy",
                 "Family Guy",
                 "1999-01-31",
                 "Sick, twisted, politically incorrect and Freakin...",
@@ -151,7 +150,7 @@ object DataDummy {
             ),
             Tvshow(
                 6,
-                R.drawable.tv_flash,
+                "R.drawable.tv_flash",
                 "The Flash",
                 "2014-10-07",
                 "After a particle accelerator causes a freak storm...",
@@ -160,7 +159,7 @@ object DataDummy {
             ),
             Tvshow(
                 7,
-                R.drawable.tv_naruto_shipudden,
+                "R.drawable.tv_naruto_shipudden",
                 "Naruto Shippūden",
                 "2007-02-15",
                 "Naruto Shippuuden is the continuation of the original...",
@@ -169,7 +168,7 @@ object DataDummy {
             ),
             Tvshow(
                 8,
-                R.drawable.tv_gotham,
+                "R.drawable.tv_gotham",
                 "Gotham",
                 "2014-09-22",
                 "Everyone knows the name Commissioner Gordon. He is one...",
@@ -178,7 +177,7 @@ object DataDummy {
             ),
             Tvshow(
                 9,
-                R.drawable.tv_grey_anatomy,
+                "R.drawable.tv_grey_anatomy",
                 "Grey's Anatomy",
                 "2005-03-27",
                 "Follows the personal and professional lives of a group...",
@@ -187,7 +186,7 @@ object DataDummy {
             ),
             Tvshow(
                 10,
-                R.drawable.tv_hanna,
+                "R.drawable.tv_hanna",
                 "Hanna",
                 "2019-03-28",
                 "This thriller and coming-of-age drama follows the journey...",

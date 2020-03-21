@@ -7,4 +7,6 @@
     <string name="label_now_playing">Now Playing</string>
     <string name="label_upcoming">Upcoming</string>
     <string name="label_popular">Popular</string>
+    <string name="label_airing_today">Airing Today</string>
+    <string name="label_on_the_air">On The Air</string>
 </resources>

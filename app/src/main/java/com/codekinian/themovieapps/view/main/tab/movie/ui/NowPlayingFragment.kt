@@ -1,4 +1,4 @@
-package com.codekinian.themovieapps.view.main.tab.movie.viewpager
+package com.codekinian.themovieapps.view.main.tab.movie.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.movie_viewpager_fragment.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
-class PopularFragment : Fragment() {
+class NowPlayingFragment : Fragment() {
     private val viewModel by lazy {
         injectViewModel {
             val remoteDataSource = MovieRemoteDataSource.getInstance(BaseApi().api)
@@ -48,7 +48,7 @@ class PopularFragment : Fragment() {
         }
 
         progress_circular.show()
-        viewModel.popular.observeForever { movies ->
+        viewModel.nowPlaying.observeForever { movies ->
             progress_circular.hide()
             adapterMovies.updateData(movies.results)
         }

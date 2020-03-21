@@ -81,7 +81,7 @@
                 android:background="@drawable/gradient_accent_color"
                 android:gravity="center"
                 android:padding="@dimen/dimens_10"
-                android:text="@{tv.percentage + `%`}"
+                android:text="@{tv.vote_average}"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="25sp"

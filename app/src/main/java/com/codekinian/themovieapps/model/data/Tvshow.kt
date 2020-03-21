@@ -6,10 +6,15 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Tvshow(
     val id: Int,
-    val poster_path: Int?,
+    val poster_path: String?,
     val title: String?,
     val release_date: String?,
     val overview: String?,
     val description: String?,
-    val percentage: String?
-) : Parcelable
+    val vote_average: String?,
+    val status: String? = null
+) : Parcelable {
+    data class TvResult(
+        val results: List<Tvshow>
+    )
+}

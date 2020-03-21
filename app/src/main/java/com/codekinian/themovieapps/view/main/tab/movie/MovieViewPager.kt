@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.codekinian.themovieapps.R
-import com.codekinian.themovieapps.view.main.tab.movie.viewpager.NowPlayingFragment
-import com.codekinian.themovieapps.view.main.tab.movie.viewpager.PopularFragment
-import com.codekinian.themovieapps.view.main.tab.movie.viewpager.UpcomingFragment
+import com.codekinian.themovieapps.view.main.tab.movie.ui.NowPlayingFragment
+import com.codekinian.themovieapps.view.main.tab.movie.ui.PopularFragment
+import com.codekinian.themovieapps.view.main.tab.movie.ui.UpcomingFragment
 
 class MovieViewPager(
     viewPagerManager: FragmentManager,

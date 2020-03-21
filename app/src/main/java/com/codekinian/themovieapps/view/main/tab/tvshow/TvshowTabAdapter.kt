@@ -9,15 +9,22 @@ import com.codekinian.themovieapps.model.data.Tvshow
 import kotlinx.android.extensions.LayoutContainer
 
 class TvshowTabAdapter(
-    private val tvshows: List<Tvshow>,
     private val onClick: (Int) -> Unit
 ) : RecyclerView.Adapter<TvshowTabAdapter.ViewHolder>() {
+    private val tvshows = ArrayList<Tvshow>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         TvshowItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
     override fun getItemCount(): Int = tvshows.size
+
+    fun updateData(newList: List<Tvshow>?) {
+        if (newList == null) return
+        tvshows.clear()
+        tvshows.addAll(newList)
+        notifyDataSetChanged()
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItem(tvshows[position])

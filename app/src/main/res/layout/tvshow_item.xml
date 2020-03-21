@@ -60,7 +60,7 @@
                         android:layout_weight="0.4"
                         android:background="@drawable/gradient_accent_color"
                         android:gravity="center"
-                        android:text="@{tv.percentage +`%`}"
+                        android:text="@{tv.vote_average}"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         android:textStyle="bold" />
@@ -95,7 +95,7 @@
                     android:layout_marginStart="@dimen/dimension_18"
                     android:layout_marginTop="@dimen/dimens_10"
                     android:maxLines="7"
-                    android:text="@{tv.overview}" />
+                    android:text="@{tv.overview.length() > 80 ? tv.overview.substring(0, 80) + `...` : tv.overview}" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
