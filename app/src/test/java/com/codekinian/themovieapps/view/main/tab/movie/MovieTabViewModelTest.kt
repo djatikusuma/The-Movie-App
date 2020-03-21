@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import com.codekinian.themovieapps.model.data.Movie
 import com.codekinian.themovieapps.utils.DataDummy
 import com.nhaarman.mockitokotlin2.verify
-import junit.framework.Assert.assertEquals
+import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

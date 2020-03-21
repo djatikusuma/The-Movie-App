@@ -19,7 +19,7 @@ import org.junit.Test
 
 class MainActivityTest {
     private val dummyMovie = DataDummy.generateDummyMovies().results
-    private val dummyTv = DataDummy.generateDummyTvshows()
+    private val dummyTv = DataDummy.generateDummyTvshows().results
 
     @get:Rule
     var activtiyRule = ActivityTestRule(MainActivity::class.java)
@@ -66,9 +66,7 @@ class MainActivityTest {
             )
         )
         onView(withId(R.id.title_movie)).check(matches(isDisplayed()))
-//        onView(withId(R.id.title_movie)).check(matches(withText(dummyMovie[5].title)))
         onView(withId(R.id.description_movie)).check(matches(isDisplayed()))
-//        onView(withId(R.id.description_movie)).check(matches(withText(dummyMovie[5].description)))
     }
 
     @Test
@@ -84,7 +82,7 @@ class MainActivityTest {
 
     @Test
     fun canOpenDetailWhenClickCardInListUpcomingMovies() {
-        onView(withText("POPULAR")).perform(click())
+        onView(withText("UPCOMING")).perform(click())
         onView(allOf(withId(R.id.rv_movies), isDisplayed()))
         onView(allOf(withId(R.id.rv_movies), isDisplayed())).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
@@ -93,13 +91,11 @@ class MainActivityTest {
             )
         )
         onView(withId(R.id.title_movie)).check(matches(isDisplayed()))
-//        onView(withId(R.id.title_movie)).check(matches(withText(dummyMovie[7].title)))
         onView(withId(R.id.description_movie)).check(matches(isDisplayed()))
-//        onView(withId(R.id.description_movie)).check(matches(withText(dummyMovie[7].description)))
     }
 
     @Test
-    fun canOpenDetailWhenClickCardInListMovies() {
+    fun canOpenDetailWhenClickCardInListNowPlayingMovies() {
         onView(allOf(withId(R.id.rv_movies), isDisplayed()))
         onView(allOf(withId(R.id.rv_movies), isDisplayed())).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
@@ -108,16 +104,14 @@ class MainActivityTest {
             )
         )
         onView(withId(R.id.title_movie)).check(matches(isDisplayed()))
-//        onView(withId(R.id.title_movie)).check(matches(withText(dummyMovie[2].title)))
         onView(withId(R.id.description_movie)).check(matches(isDisplayed()))
-//        onView(withId(R.id.description_movie)).check(matches(withText(dummyMovie[2].description)))
     }
 
     @Test
-    fun canChangeTabThenLoadDataAndScrollDataTvShowsInTvShowsTab() {
-        onView(withId(R.id.navigation_tvshow)).perform(click())
-        onView(withId(R.id.rv_tvshow)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_tvshow)).perform(
+    fun canLoadDataAndScrollDataTvInTvshowsTab() {
+        onView(allOf(withId(R.id.navigation_tvshow))).perform(click())
+        onView(allOf(withId(R.id.rv_tvshow), isDisplayed()))
+        onView(allOf(withId(R.id.rv_tvshow), isDisplayed())).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
                 dummyTv.size
             )
@@ -125,18 +119,72 @@ class MainActivityTest {
     }
 
     @Test
-    fun canOpenDetailWhenClickCardInListTvshows() {
-        onView(withId(R.id.navigation_tvshow)).perform(click())
-        onView(withId(R.id.rv_tvshow)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_tvshow)).perform(
+    fun canLoadDataAndScrollDataTvInOnTheAirTvshowTab() {
+        onView(allOf(withId(R.id.navigation_tvshow))).perform(click())
+        onView(withText("ON THE AIR")).perform(click())
+        onView(allOf(withId(R.id.rv_tvshow), isDisplayed()))
+        onView(allOf(withId(R.id.rv_tvshow), isDisplayed())).perform(
+            RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
+                dummyTv.size
+            )
+        )
+    }
+
+    @Test
+    fun canOpenDetailWhenClickCardInListOnTheAirTvShows() {
+        onView(allOf(withId(R.id.navigation_tvshow))).perform(click())
+        onView(withText("ON THE AIR")).perform(click())
+        onView(allOf(withId(R.id.rv_tvshow), isDisplayed()))
+        onView(allOf(withId(R.id.rv_tvshow), isDisplayed())).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                4,
+                5,
                 click()
             )
         )
         onView(withId(R.id.title_tv)).check(matches(isDisplayed()))
-        onView(withId(R.id.title_tv)).check(matches(withText(dummyTv[4].title)))
         onView(withId(R.id.description_tv)).check(matches(isDisplayed()))
-        onView(withId(R.id.description_tv)).check(matches(withText(dummyTv[4].description)))
     }
+
+    @Test
+    fun canLoadDataAndScrollDataTvInPopularTvshowTab() {
+        onView(allOf(withId(R.id.navigation_tvshow))).perform(click())
+        onView(withText("POPULAR")).perform(click())
+        onView(allOf(withId(R.id.rv_tvshow), isDisplayed()))
+        onView(allOf(withId(R.id.rv_tvshow), isDisplayed())).perform(
+            RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
+                dummyTv.size
+            )
+        )
+    }
+
+    @Test
+    fun canOpenDetailWhenClickCardInListPopularTvShows() {
+        onView(allOf(withId(R.id.navigation_tvshow))).perform(click())
+        onView(withText("POPULAR")).perform(click())
+        onView(allOf(withId(R.id.rv_tvshow), isDisplayed()))
+        onView(allOf(withId(R.id.rv_tvshow), isDisplayed())).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                5,
+                click()
+            )
+        )
+        onView(withId(R.id.title_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.description_tv)).check(matches(isDisplayed()))
+    }
+
+
+    @Test
+    fun canOpenDetailWhenClickCardInListAiringTodayTvshows() {
+        onView(allOf(withId(R.id.navigation_tvshow))).perform(click())
+        onView(allOf(withId(R.id.rv_tvshow), isDisplayed()))
+        onView(allOf(withId(R.id.rv_tvshow), isDisplayed())).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                2,
+                click()
+            )
+        )
+        onView(withId(R.id.title_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.description_tv)).check(matches(isDisplayed()))
+    }
+
 }

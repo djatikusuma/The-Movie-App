@@ -57,7 +57,7 @@ class DetailMovieViewModelTest {
             val dummyTitle = dummyMovies?.title
             assertNotNull(title)
             assertNotNull(dummyTitle)
-            assertEquals(title, dummyTitle)
+            assertEquals(dummyTitle, title)
 
             viewModel.detailMovie(movieId).observeForever(observer)
             verify(observer).onChanged(dummyMovies)

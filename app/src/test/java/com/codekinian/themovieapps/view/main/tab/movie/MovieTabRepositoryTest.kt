@@ -57,4 +57,16 @@ class MovieTabRepositoryTest {
             assertEquals(moviesResponse.results.size.toLong(), movies.results.size.toLong())
         }
     }
+
+    @Test
+    fun getDetailTv() {
+        scope.launch {
+            val movieId = moviesResponse.results[0].id
+            Mockito.`when`(remote.getDetailMovie(movieId)).thenReturn(any())
+            val movie = LiveDataTestUtil.getValue(repository.getDetailMovie(movieId))
+            verify(remote).getDetailMovie(movieId)
+            assertNotNull(movie)
+            assertEquals(moviesResponse.results[0].title, movie.title)
+        }
+    }
 }
