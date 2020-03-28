@@ -44,7 +44,7 @@ ext {
     navigationVersion = '2.2.1'
     materialVersion = '1.1.0'
     recyclerViewVersion = '1.1.0'
-    glideVersion = '4.10.0'
+    glideVersion = '4.11.0'
     retrofitVersion = '2.6.1'
     okhttp3Version = '3.14.1'
 }
