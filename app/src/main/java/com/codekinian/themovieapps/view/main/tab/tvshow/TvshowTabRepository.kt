@@ -10,12 +10,10 @@ import com.codekinian.themovieapps.model.room.TheTvDao
 import com.codekinian.themovieapps.utils.liveDataResult
 import com.codekinian.themovieapps.view.main.tab.tvshow.data.TvshowDataSource
 import com.codekinian.themovieapps.view.main.tab.tvshow.data.TvshowRemoteDataSource
-import kotlinx.coroutines.CoroutineScope
 
 class TvshowTabRepository private constructor(
     private val theTvDao: TheTvDao,
-    private val remoteData: TvshowRemoteDataSource,
-    private val scope: CoroutineScope
+    private val remoteData: TvshowRemoteDataSource
 ) : TvshowDataSource {
 
     companion object {
@@ -24,11 +22,10 @@ class TvshowTabRepository private constructor(
 
         fun getInstance(
             theTvDao: TheTvDao,
-            remoteData: TvshowRemoteDataSource,
-            scope: CoroutineScope
+            remoteData: TvshowRemoteDataSource
         ): TvshowTabRepository =
             instance ?: synchronized(this) {
-                instance ?: TvshowTabRepository(theTvDao, remoteData, scope)
+                instance ?: TvshowTabRepository(theTvDao, remoteData)
             }
     }
 

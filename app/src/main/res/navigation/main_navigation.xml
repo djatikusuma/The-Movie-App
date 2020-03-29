@@ -2,7 +2,6 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_navigation"
     app:startDestination="@id/navigation_movie">
 
     <fragment
@@ -10,25 +9,11 @@
         android:name="com.codekinian.themovieapps.view.main.tab.movie.MovieTabFragment"
         android:label="movie_tab_fragment"
         tools:layout="@layout/movie_tab_fragment">
-        <action
-            android:id="@+id/action_movieTabFragment_to_detailMovieActivity"
-            app:destination="@id/detailMovieActivity" />
     </fragment>
     <fragment
         android:id="@+id/navigation_tvshow"
         android:name="com.codekinian.themovieapps.view.main.tab.tvshow.TvshowTabFragment"
         android:label="tvshow_tab_fragment"
         tools:layout="@layout/tvshow_tab_fragment">
-        <action
-            android:id="@+id/action_tvshowTabFragment_to_detailTvshowActivity"
-            app:destination="@id/detailTvshowActivity" />
     </fragment>
-    <activity
-        android:id="@+id/detailMovieActivity"
-        android:name="com.codekinian.themovieapps.view.detail.movie.DetailMovieActivity"
-        android:label="DetailMovieActivity" />
-    <activity
-        android:id="@+id/detailTvshowActivity"
-        android:name="com.codekinian.themovieapps.view.detail.tvshow.DetailTvshowActivity"
-        android:label="DetailTvshowActivity" />
 </navigation>

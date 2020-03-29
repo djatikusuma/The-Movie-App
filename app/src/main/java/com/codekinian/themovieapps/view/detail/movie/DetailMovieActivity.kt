@@ -17,8 +17,6 @@ import com.codekinian.themovieapps.utils.show
 import com.codekinian.themovieapps.utils.toast
 import com.codekinian.themovieapps.view.main.tab.movie.MovieTabRepository
 import com.codekinian.themovieapps.view.main.tab.movie.data.MovieRemoteDataSource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 
 class DetailMovieActivity : AppCompatActivity() {
     private val viewModel by lazy {
@@ -27,9 +25,7 @@ class DetailMovieActivity : AppCompatActivity() {
             val theMovieDao = TheMovieDatabase.getInstance(this).theMovieDao()
             DetailMovieViewModel(
                 MovieTabRepository.getInstance(
-                    theMovieDao, remoteDataSource, CoroutineScope(
-                        Dispatchers.IO
-                    )
+                    theMovieDao, remoteDataSource
                 )
             )
         }

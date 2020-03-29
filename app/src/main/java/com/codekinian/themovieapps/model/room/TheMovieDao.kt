@@ -1,5 +1,6 @@
 package com.codekinian.themovieapps.model.room
 
+import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.codekinian.themovieapps.model.data.Movie
@@ -28,15 +29,6 @@ interface TheMovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUpcoming(upcomings: List<Upcoming>)
 
-    @Update
-    fun updateNowPlaying(nowPlaying: NowPlaying)
-
-    @Update
-    fun updatePopularMovie(popularMovie: PopularMovie)
-
-    @Update
-    fun updateUpcoming(upcoming: Upcoming)
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovie(movie: Movie)
 
@@ -48,5 +40,20 @@ interface TheMovieDao {
 
     @Query("SELECT * FROM upcoming WHERE id = :id")
     fun getUpcomingById(id: Int): LiveData<Movie>
+
+    // Favorite Dao
+    @Transaction
+    @Query("SELECT * FROM movie_tb WHERE id = :id")
+    fun getFavoriteMovieById(id: Int): LiveData<Movie>
+
+    @WorkerThread
+    @Query("SELECT * FROM movie_tb where isFavorite = 1")
+    fun getFavoriteMovies(): LiveData<List<Movie>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertFavoriteMovies(movies: List<Movie>): LongArray
+
+    @Update(onConflict = OnConflictStrategy.ABORT)
+    fun updateFavoriteMovie(movie: Movie): Int
 
 }

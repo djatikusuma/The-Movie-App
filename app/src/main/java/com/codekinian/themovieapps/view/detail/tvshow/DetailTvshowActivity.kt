@@ -12,8 +12,6 @@ import com.codekinian.themovieapps.network.BaseApi
 import com.codekinian.themovieapps.utils.*
 import com.codekinian.themovieapps.view.main.tab.tvshow.TvshowTabRepository
 import com.codekinian.themovieapps.view.main.tab.tvshow.data.TvshowRemoteDataSource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 
 class DetailTvshowActivity : AppCompatActivity() {
     private val viewModel by lazy {
@@ -22,9 +20,7 @@ class DetailTvshowActivity : AppCompatActivity() {
             val theTvDao = TheMovieDatabase.getInstance(this).theTvDao()
             DetailTvshowViewModel(
                 TvshowTabRepository.getInstance(
-                    theTvDao, remoteDataSource, CoroutineScope(
-                        Dispatchers.IO
-                    )
+                    theTvDao, remoteDataSource
                 )
             )
         }

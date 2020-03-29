@@ -34,7 +34,7 @@ abstract class TheMovieDatabase : RoomDatabase() {
                 INSTANCE ?: Room.databaseBuilder(
                     context.applicationContext,
                     TheMovieDatabase::class.java,
-                    "DatabaseMovieAppNew.db"
+                    "MovieTvApp.db"
                 ).build()
             }
     }

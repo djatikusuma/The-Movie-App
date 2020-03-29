@@ -18,8 +18,6 @@ import com.codekinian.themovieapps.view.main.tab.movie.MovieTabRepository
 import com.codekinian.themovieapps.view.main.tab.movie.MovieTabViewModel
 import com.codekinian.themovieapps.view.main.tab.movie.data.MovieRemoteDataSource
 import kotlinx.android.synthetic.main.movie_viewpager_fragment.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 
 class NowPlayingFragment : Fragment() {
     private val viewModel by lazy {
@@ -28,9 +26,7 @@ class NowPlayingFragment : Fragment() {
             val theMovieDao = TheMovieDatabase.getInstance(context!!).theMovieDao()
             MovieTabViewModel(
                 MovieTabRepository.getInstance(
-                    theMovieDao, remoteDataSource, CoroutineScope(
-                        Dispatchers.IO
-                    )
+                    theMovieDao, remoteDataSource
                 )
             )
         }

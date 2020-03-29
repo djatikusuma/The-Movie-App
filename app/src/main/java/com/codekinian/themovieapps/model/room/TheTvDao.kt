@@ -1,5 +1,6 @@
 package com.codekinian.themovieapps.model.room
 
+import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.codekinian.themovieapps.model.data.Tvshow
@@ -48,5 +49,20 @@ interface TheTvDao {
 
     @Query("SELECT * FROM popular_tv WHERE id = :id")
     fun getPopularTvById(id: Int): LiveData<Tvshow>
+
+    // Favorite Dao
+    @Transaction
+    @Query("SELECT * FROM tvshow_tb WHERE id = :id")
+    fun getFavoriteTvShowById(id: Int): LiveData<Tvshow>
+
+    @WorkerThread
+    @Query("SELECT * FROM tvshow_tb where isFavorite = 1")
+    fun getFavoriteTvShows(): LiveData<List<Tvshow>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertFavoriteTvShow(movies: List<Tvshow>): LongArray
+
+    @Update(onConflict = OnConflictStrategy.ABORT)
+    fun updateFavoriteMovie(movie: Tvshow): Int
 
 }
