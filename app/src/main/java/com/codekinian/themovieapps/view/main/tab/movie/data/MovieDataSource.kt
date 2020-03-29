@@ -11,5 +11,5 @@ interface MovieDataSource {
     fun getNowPlaying(): LiveData<Result<List<NowPlaying>>>
     fun getPopular(): LiveData<Result<List<PopularMovie>>>
     fun getUpcoming(): LiveData<Result<List<Upcoming>>>
-    fun getDetailMovie(movieId: Int): LiveData<Movie>
+    fun getDetailMovie(category: String, movieId: Int): LiveData<Result<Movie>>
 }

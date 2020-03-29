@@ -48,6 +48,7 @@ class UpcomingFragment : Fragment() {
         val adapterMovies = MovieTabAdapter<Upcoming> {
             context?.launchActivity<DetailMovieActivity> {
                 putExtra(Constant.MOVIE_ID, it)
+                putExtra(Constant.MOVIE_CATEGORY, "upcoming")
             }
         }
 

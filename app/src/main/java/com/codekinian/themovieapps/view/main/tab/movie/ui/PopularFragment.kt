@@ -48,6 +48,7 @@ class PopularFragment : Fragment() {
         val adapterMovies = MovieTabAdapter<PopularMovie> {
             context?.launchActivity<DetailMovieActivity> {
                 putExtra(Constant.MOVIE_ID, it)
+                putExtra(Constant.MOVIE_CATEGORY, "popular")
             }
         }
 

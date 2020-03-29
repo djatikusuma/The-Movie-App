@@ -48,6 +48,7 @@ class NowPlayingFragment : Fragment() {
         val adapterMovies = MovieTabAdapter<NowPlaying> {
             context?.launchActivity<DetailMovieActivity> {
                 putExtra(Constant.MOVIE_ID, it)
+                putExtra(Constant.MOVIE_CATEGORY, "now_playing")
             }
         }
 

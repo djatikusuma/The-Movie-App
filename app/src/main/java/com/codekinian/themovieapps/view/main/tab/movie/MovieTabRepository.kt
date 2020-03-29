@@ -1,19 +1,16 @@
 package com.codekinian.themovieapps.view.main.tab.movie
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.codekinian.themovieapps.model.data.Movie
 import com.codekinian.themovieapps.model.data.movies.NowPlaying
 import com.codekinian.themovieapps.model.data.movies.PopularMovie
 import com.codekinian.themovieapps.model.data.movies.Upcoming
 import com.codekinian.themovieapps.model.response.Result
-import com.codekinian.themovieapps.model.response.Result.Status
 import com.codekinian.themovieapps.model.room.TheMovieDao
 import com.codekinian.themovieapps.utils.liveDataResult
 import com.codekinian.themovieapps.view.main.tab.movie.data.MovieDataSource
 import com.codekinian.themovieapps.view.main.tab.movie.data.MovieRemoteDataSource
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 class MovieTabRepository private constructor(
     private val theMovieDao: TheMovieDao,
@@ -53,19 +50,16 @@ class MovieTabRepository private constructor(
         saveCallResult = { theMovieDao.insertUpcoming(it.results) }
     )
 
-    override fun getDetailMovie(movieId: Int): LiveData<Movie> {
-        val movieResult = MutableLiveData<Movie>()
-        scope.launch {
-            val response = remoteData.getDetailMovie(movieId)
-            if (response.status == Status.SUCCESS) {
-                response.data?.let {
-                    movieResult.postValue(it)
-                }
+    override fun getDetailMovie(category: String, movieId: Int): LiveData<Result<Movie>> =
+        liveDataResult(
+            databaseQuery = {
+                when (category) {
+                    "now_playing" -> theMovieDao.getNowPlayingById(movieId)
+                    "popular" -> theMovieDao.getPopularMovieById(movieId)
+                    else -> theMovieDao.getUpcomingById(movieId)
             }
-        }
-
-        return movieResult
-    }
-
-
+            },
+            networkCall = { remoteData.getDetailMovie(movieId) },
+            saveCallResult = { theMovieDao.insertMovie(it) }
+        )
 }
