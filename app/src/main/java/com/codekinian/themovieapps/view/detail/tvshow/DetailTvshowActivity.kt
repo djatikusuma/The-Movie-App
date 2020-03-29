@@ -6,9 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.codekinian.themovieapps.R
 import com.codekinian.themovieapps.databinding.ActivityDetailTvshowBinding
+import com.codekinian.themovieapps.model.response.Result
+import com.codekinian.themovieapps.model.room.TheMovieDatabase
 import com.codekinian.themovieapps.network.BaseApi
-import com.codekinian.themovieapps.utils.Constant
-import com.codekinian.themovieapps.utils.injectViewModel
+import com.codekinian.themovieapps.utils.*
 import com.codekinian.themovieapps.view.main.tab.tvshow.TvshowTabRepository
 import com.codekinian.themovieapps.view.main.tab.tvshow.data.TvshowRemoteDataSource
 import kotlinx.coroutines.CoroutineScope
@@ -18,9 +19,10 @@ class DetailTvshowActivity : AppCompatActivity() {
     private val viewModel by lazy {
         injectViewModel {
             val remoteDataSource = TvshowRemoteDataSource.getInstance(BaseApi().api)
+            val theTvDao = TheMovieDatabase.getInstance(this).theTvDao()
             DetailTvshowViewModel(
                 TvshowTabRepository.getInstance(
-                    remoteDataSource, CoroutineScope(
+                    theTvDao, remoteDataSource, CoroutineScope(
                         Dispatchers.IO
                     )
                 )
@@ -44,9 +46,27 @@ class DetailTvshowActivity : AppCompatActivity() {
 
     private fun createView() {
         val tvId = intent.getIntExtra(Constant.TV_ID, 0)
+        val category = intent.getStringExtra(Constant.TV_CATEGORY)
         viewBinding.lifecycleOwner = this
-        viewModel.detailTv(tvId).observeForever {
-            viewBinding.tv = it
+        category?.let { cat ->
+            viewModel.detailTv(cat, tvId).observeForever { result ->
+                when (result.status) {
+                    Result.Status.SUCCESS -> {
+                        viewBinding.progressCircular.hide()
+                        viewBinding.viewDetail.show()
+                        viewBinding.tv = result.data
+                    }
+                    Result.Status.LOADING -> {
+                        viewBinding.progressCircular.show()
+                        viewBinding.viewDetail.hide()
+                    }
+                    Result.Status.ERROR -> {
+                        viewBinding.progressCircular.hide()
+                        viewBinding.viewDetail.hide()
+                        toast("Gagal memuat data!")
+                    }
+                }
+            }
         }
     }
 

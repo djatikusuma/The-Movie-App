@@ -58,11 +58,16 @@ class DetailMovieActivity : AppCompatActivity() {
                 when (result.status) {
                     Result.Status.SUCCESS -> {
                         viewBinding.progressCircular.hide()
+                        viewBinding.viewDetail.show()
                         viewBinding.movie = result.data
                     }
-                    Result.Status.LOADING -> viewBinding.progressCircular.show()
+                    Result.Status.LOADING -> {
+                        viewBinding.progressCircular.show()
+                        viewBinding.viewDetail.hide()
+                    }
                     Result.Status.ERROR -> {
                         viewBinding.progressCircular.hide()
+                        viewBinding.viewDetail.hide()
                         toast("Gagal memuat data!")
                     }
                 }
