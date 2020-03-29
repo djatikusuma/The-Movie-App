@@ -2,36 +2,38 @@ package com.codekinian.themovieapps.model.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.codekinian.themovieapps.model.data.Movie
-import com.codekinian.themovieapps.model.data.Tvshow
+import com.codekinian.themovieapps.model.data.movies.NowPlaying
+import com.codekinian.themovieapps.model.data.movies.PopularMovie
+import com.codekinian.themovieapps.model.data.movies.Upcoming
 
 @Dao
 interface TheMovieDao {
 
-    @Query("SELECT * FROM movie_tb")
-    fun getMovies(): LiveData<List<Movie>>
+    @Query("SELECT * FROM now_playing")
+    fun getNowPlaying(): LiveData<List<NowPlaying>>
 
-    @Transaction
-    @Query("SELECT * FROM movie_tb WHERE id = :id")
-    fun getMovieById(id: String): LiveData<Movie>
+    @Query("SELECT * FROM popular_movie")
+    fun getPopularMovie(): LiveData<List<PopularMovie>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMovies(movies: List<Movie>)
-
-    @Update
-    fun updateMovie(movie: Movie)
-
-    @Query("SELECT * FROM tvshow_tb")
-    fun getTvShows(): LiveData<List<Tvshow>>
-
-    @Transaction
-    @Query("SELECT * FROM tvshow_tb WHERE id = :id")
-    fun getTvById(id: String): LiveData<Tvshow>
+    @Query("SELECT * FROM upcoming")
+    fun getUpcoming(): LiveData<List<Upcoming>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTvShow(movies: List<Tvshow>)
+    fun insertNowPlaying(nowPlayings: List<NowPlaying>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertPopularMovie(popularMovies: List<PopularMovie>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertUpcoming(upcomings: List<Upcoming>)
 
     @Update
-    fun updateTvShow(tvshow: Tvshow)
+    fun updateNowPlaying(nowPlaying: NowPlaying)
+
+    @Update
+    fun updatePopularMovie(popularMovie: PopularMovie)
+
+    @Update
+    fun updateUpcoming(upcoming: Upcoming)
 
 }

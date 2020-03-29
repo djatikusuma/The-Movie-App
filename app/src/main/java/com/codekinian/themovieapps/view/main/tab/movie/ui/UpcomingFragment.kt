@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.codekinian.themovieapps.R
+import com.codekinian.themovieapps.model.data.movies.Upcoming
+import com.codekinian.themovieapps.model.response.Result
+import com.codekinian.themovieapps.model.room.TheMovieDatabase
 import com.codekinian.themovieapps.network.BaseApi
 import com.codekinian.themovieapps.utils.*
 import com.codekinian.themovieapps.view.detail.movie.DetailMovieActivity
@@ -22,9 +25,10 @@ class UpcomingFragment : Fragment() {
     private val viewModel by lazy {
         injectViewModel {
             val remoteDataSource = MovieRemoteDataSource.getInstance(BaseApi().api)
+            val theMovieDao = TheMovieDatabase.getInstance(context!!).theMovieDao()
             MovieTabViewModel(
                 MovieTabRepository.getInstance(
-                    remoteDataSource, CoroutineScope(
+                    theMovieDao, remoteDataSource, CoroutineScope(
                         Dispatchers.IO
                     )
                 )
@@ -41,16 +45,26 @@ class UpcomingFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val adapterMovies = MovieTabAdapter {
+        val adapterMovies = MovieTabAdapter<Upcoming> {
             context?.launchActivity<DetailMovieActivity> {
                 putExtra(Constant.MOVIE_ID, it)
             }
         }
 
-        progress_circular.show()
-        viewModel.upcoming.observeForever { movies ->
-            progress_circular.hide()
-            adapterMovies.updateData(movies.results)
+        viewModel.upcoming.observeForever { result ->
+            when (result.status) {
+                Result.Status.SUCCESS -> {
+                    progress_circular.hide()
+                    adapterMovies.updateData(result.data)
+                }
+                Result.Status.ERROR -> {
+                    progress_circular.hide()
+                    activity?.toast("Gagal memuat data!")
+                }
+                Result.Status.LOADING -> {
+                    progress_circular.show()
+                }
+            }
         }
 
         with(rv_movies) {

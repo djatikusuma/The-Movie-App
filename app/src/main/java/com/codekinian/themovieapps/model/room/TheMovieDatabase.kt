@@ -6,14 +6,19 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.codekinian.themovieapps.model.data.Movie
 import com.codekinian.themovieapps.model.data.Tvshow
+import com.codekinian.themovieapps.model.data.movies.NowPlaying
+import com.codekinian.themovieapps.model.data.movies.PopularMovie
+import com.codekinian.themovieapps.model.data.movies.Upcoming
 
 @Database(
-    entities = [Movie::class, Tvshow::class],
+    entities = [NowPlaying::class, PopularMovie::class, Upcoming::class,
+        Movie::class, Tvshow::class],
     version = 1,
     exportSchema = false
 )
 abstract class TheMovieDatabase : RoomDatabase() {
     abstract fun theMovieDao(): TheMovieDao
+    abstract fun theTvDao(): TheTvDao
 
     companion object {
 
@@ -25,7 +30,7 @@ abstract class TheMovieDatabase : RoomDatabase() {
                 INSTANCE ?: Room.databaseBuilder(
                     context.applicationContext,
                     TheMovieDatabase::class.java,
-                    "TheMovie.db"
+                    "TheMovieNewer.db"
                 ).build()
             }
     }

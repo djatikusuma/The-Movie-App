@@ -2,10 +2,13 @@ package com.codekinian.themovieapps.view.main.tab.movie
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.codekinian.themovieapps.model.data.Movie
+import com.codekinian.themovieapps.model.data.movies.NowPlaying
+import com.codekinian.themovieapps.model.data.movies.PopularMovie
+import com.codekinian.themovieapps.model.data.movies.Upcoming
+import com.codekinian.themovieapps.model.response.Result
 
 class MovieTabViewModel(repository: MovieTabRepository) : ViewModel() {
-    val nowPlaying: LiveData<Movie.MovieResult> = repository.getNowPlaying()
-    val popular: LiveData<Movie.MovieResult> = repository.getPopular()
-    val upcoming: LiveData<Movie.MovieResult> = repository.getUpcoming()
+    val nowPlaying: LiveData<Result<List<NowPlaying>>> = repository.getNowPlaying()
+    val popular: LiveData<Result<List<PopularMovie>>> = repository.getPopular()
+    val upcoming: LiveData<Result<List<Upcoming>>> = repository.getUpcoming()
 }

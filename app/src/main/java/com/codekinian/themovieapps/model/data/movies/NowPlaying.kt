@@ -1,4 +1,4 @@
-package com.codekinian.themovieapps.model.data
+package com.codekinian.themovieapps.model.data.movies
 
 import android.os.Parcelable
 import androidx.annotation.NonNull
@@ -7,9 +7,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
-@Entity(tableName = "movie_tb")
+@Entity(tableName = "now_playing")
 @Parcelize
-data class Movie(
+data class NowPlaying(
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "id")
@@ -39,7 +39,7 @@ data class Movie(
     @ColumnInfo(name = "status")
     val status: String? = null
 ) : Parcelable {
-    data class MovieResult(
-        val results: List<Movie>
+    data class Result(
+        val results: List<NowPlaying>
     )
 }

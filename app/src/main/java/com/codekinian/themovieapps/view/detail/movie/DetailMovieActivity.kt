@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.codekinian.themovieapps.R
 import com.codekinian.themovieapps.databinding.ActivityDetailMovieBinding
+import com.codekinian.themovieapps.model.room.TheMovieDatabase
 import com.codekinian.themovieapps.network.BaseApi
 import com.codekinian.themovieapps.utils.Constant.Companion.MOVIE_ID
 import com.codekinian.themovieapps.utils.injectViewModel
@@ -18,9 +19,10 @@ class DetailMovieActivity : AppCompatActivity() {
     private val viewModel by lazy {
         injectViewModel {
             val remoteDataSource = MovieRemoteDataSource.getInstance(BaseApi().api)
+            val theMovieDao = TheMovieDatabase.getInstance(this).theMovieDao()
             DetailMovieViewModel(
                 MovieTabRepository.getInstance(
-                    remoteDataSource, CoroutineScope(
+                    theMovieDao, remoteDataSource, CoroutineScope(
                         Dispatchers.IO
                     )
                 )

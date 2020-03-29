@@ -7,6 +7,11 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
+import androidx.lifecycle.map
+import com.codekinian.themovieapps.model.response.Result
+import kotlinx.coroutines.Dispatchers
 
 inline fun <reified T : Any> Activity.launchActivity(
     requestCode: Int = -1,
@@ -51,3 +56,22 @@ fun View.show() {
 fun Activity.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, length).show()
 }
+
+fun <T, A> liveDataResult(
+    databaseQuery: () -> LiveData<T>,
+    networkCall: suspend () -> Result<A>,
+    saveCallResult: suspend (A) -> Unit
+): LiveData<Result<T>> =
+    liveData(Dispatchers.IO) {
+        emit(Result.loading())
+        val source = databaseQuery.invoke().map { Result.success(it) }
+        emitSource(source)
+
+        val responseStatus = networkCall.invoke()
+        if (responseStatus.status == Result.Status.SUCCESS) {
+            saveCallResult(responseStatus.data!!)
+        } else if (responseStatus.status == Result.Status.ERROR) {
+            emit(Result.error(responseStatus.message!!))
+            emitSource(source)
+        }
+    }
