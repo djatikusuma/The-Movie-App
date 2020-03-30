@@ -3,11 +3,11 @@ package com.codekinian.themovieapps.view.main.tab.movie
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.codekinian.themovieapps.model.data.movies.NowPlaying
 import com.codekinian.themovieapps.model.data.movies.PopularMovie
 import com.codekinian.themovieapps.model.data.movies.Upcoming
 import com.codekinian.themovieapps.model.response.Result
-import com.codekinian.themovieapps.utils.DataDummy
 import com.nhaarman.mockitokotlin2.verify
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
@@ -19,6 +19,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
+import org.mockito.Mockito.lenient
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
@@ -34,13 +35,22 @@ class MovieTabViewModelTest {
     private lateinit var repository: MovieTabRepository
 
     @Mock
-    private lateinit var observerNowPlaying: Observer<Result<List<NowPlaying>>>
+    private lateinit var observerNowPlaying: Observer<Result<PagedList<NowPlaying>>>
 
     @Mock
-    private lateinit var observerPopular: Observer<Result<List<PopularMovie>>>
+    private lateinit var pagedListNowPlaying: PagedList<NowPlaying>
 
     @Mock
-    private lateinit var observerUpcoming: Observer<Result<List<Upcoming>>>
+    private lateinit var observerPopular: Observer<Result<PagedList<PopularMovie>>>
+
+    @Mock
+    private lateinit var pagedListPopular: PagedList<PopularMovie>
+
+    @Mock
+    private lateinit var observerUpcoming: Observer<Result<PagedList<Upcoming>>>
+
+    @Mock
+    private lateinit var pagedListUpcoming: PagedList<Upcoming>
 
     @Before
     fun setUp() {
@@ -50,10 +60,12 @@ class MovieTabViewModelTest {
     @Test
     fun getNowPlaying() {
         scope.launch {
-            val dummyMovies = Result.success(DataDummy.generateDummyNowPlaying())
-            val movies = MutableLiveData<Result<List<NowPlaying>>>()
+            val dummyMovies = Result.success(pagedListNowPlaying)
+            lenient().`when`(dummyMovies.data?.size).thenReturn(10)
+            val movies = MutableLiveData<Result<PagedList<NowPlaying>>>()
             movies.value = dummyMovies
 
+            lenient().`when`(repository.getNowPlaying()).thenReturn(movies)
             val moviesData = viewModel.nowPlaying.value
             verify(repository).getNowPlaying()
             assertNotNull(moviesData)
@@ -67,10 +79,12 @@ class MovieTabViewModelTest {
     @Test
     fun getPopular() {
         scope.launch {
-            val dummyMovies = Result.success(DataDummy.generateDummyPopularMovie())
-            val movies = MutableLiveData<Result<List<PopularMovie>>>()
+            val dummyMovies = Result.success(pagedListPopular)
+            lenient().`when`(dummyMovies.data?.size).thenReturn(10)
+            val movies = MutableLiveData<Result<PagedList<PopularMovie>>>()
             movies.value = dummyMovies
 
+            lenient().`when`(repository.getPopular()).thenReturn(movies)
             val moviesData = viewModel.popular.value
             verify(repository).getPopular()
             assertNotNull(moviesData)
@@ -84,10 +98,12 @@ class MovieTabViewModelTest {
     @Test
     fun getUpcoming() {
         scope.launch {
-            val dummyMovies = Result.success(DataDummy.generateDummyUpcoming())
-            val movies = MutableLiveData<Result<List<Upcoming>>>()
+            val dummyMovies = Result.success(pagedListUpcoming)
+            lenient().`when`(dummyMovies.data?.size).thenReturn(10)
+            val movies = MutableLiveData<Result<PagedList<Upcoming>>>()
             movies.value = dummyMovies
 
+            lenient().`when`(repository.getUpcoming()).thenReturn(movies)
             val moviesData = viewModel.upcoming.value
             verify(repository).getUpcoming()
             assertNotNull(moviesData)

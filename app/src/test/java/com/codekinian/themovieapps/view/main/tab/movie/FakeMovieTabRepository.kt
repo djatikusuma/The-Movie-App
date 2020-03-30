@@ -1,6 +1,8 @@
 package com.codekinian.themovieapps.view.main.tab.movie
 
 import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.codekinian.themovieapps.model.data.Movie
 import com.codekinian.themovieapps.model.data.movies.NowPlaying
 import com.codekinian.themovieapps.model.data.movies.PopularMovie
@@ -19,21 +21,42 @@ class FakeMovieTabRepository constructor(
     private val scope: CoroutineScope
 ) : MovieDataSource {
 
-    override fun getNowPlaying(): LiveData<Result<List<NowPlaying>>> = liveDataResult(
-        databaseQuery = { theMovieDao.getNowPlaying() },
-        networkCall = { remoteData.getNowPlaying() },
+    override fun getNowPlaying(): LiveData<Result<PagedList<NowPlaying>>> = liveDataResult(
+        databaseQuery = {
+            val config = PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setInitialLoadSizeHint(4)
+                .setPageSize(4)
+                .build()
+            LivePagedListBuilder(theMovieDao.getNowPlaying(), config).build()
+        },
+        networkCall = { remoteData.getNowPlaying(1) },
         saveCallResult = { theMovieDao.insertNowPlaying(it.results) }
     )
 
-    override fun getPopular(): LiveData<Result<List<PopularMovie>>> = liveDataResult(
-        databaseQuery = { theMovieDao.getPopularMovie() },
-        networkCall = { remoteData.getPopular() },
+    override fun getPopular(): LiveData<Result<PagedList<PopularMovie>>> = liveDataResult(
+        databaseQuery = {
+            val config = PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setInitialLoadSizeHint(4)
+                .setPageSize(4)
+                .build()
+            LivePagedListBuilder(theMovieDao.getPopularMovie(), config).build()
+        },
+        networkCall = { remoteData.getPopular(1) },
         saveCallResult = { theMovieDao.insertPopularMovie(it.results) }
     )
 
-    override fun getUpcoming(): LiveData<Result<List<Upcoming>>> = liveDataResult(
-        databaseQuery = { theMovieDao.getUpcoming() },
-        networkCall = { remoteData.getUpcoming() },
+    override fun getUpcoming(): LiveData<Result<PagedList<Upcoming>>> = liveDataResult(
+        databaseQuery = {
+            val config = PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setInitialLoadSizeHint(4)
+                .setPageSize(4)
+                .build()
+            LivePagedListBuilder(theMovieDao.getUpcoming(), config).build()
+        },
+        networkCall = { remoteData.getUpcoming(1) },
         saveCallResult = { theMovieDao.insertUpcoming(it.results) }
     )
 

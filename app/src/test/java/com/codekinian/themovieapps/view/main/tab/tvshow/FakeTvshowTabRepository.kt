@@ -1,6 +1,8 @@
 package com.codekinian.themovieapps.view.main.tab.tvshow
 
 import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.codekinian.themovieapps.model.data.Tvshow
 import com.codekinian.themovieapps.model.data.tvshows.AiringToday
 import com.codekinian.themovieapps.model.data.tvshows.OnTheAir
@@ -19,20 +21,41 @@ class FakeTvshowTabRepository constructor(
     private val scope: CoroutineScope
 ) : TvshowDataSource {
 
-    override fun getAiringToday(): LiveData<Result<List<AiringToday>>> = liveDataResult(
-        databaseQuery = { theTvDao.getAiringToday() },
+    override fun getAiringToday(): LiveData<Result<PagedList<AiringToday>>> = liveDataResult(
+        databaseQuery = {
+            val config = PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setInitialLoadSizeHint(4)
+                .setPageSize(4)
+                .build()
+            LivePagedListBuilder(theTvDao.getAiringToday(), config).build()
+        },
         networkCall = { remoteData.getAiringToday() },
         saveCallResult = { theTvDao.insertAiringToday(it.results) }
     )
 
-    override fun getOnTheAir(): LiveData<Result<List<OnTheAir>>> = liveDataResult(
-        databaseQuery = { theTvDao.getOnTheAir() },
+    override fun getOnTheAir(): LiveData<Result<PagedList<OnTheAir>>> = liveDataResult(
+        databaseQuery = {
+            val config = PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setInitialLoadSizeHint(4)
+                .setPageSize(4)
+                .build()
+            LivePagedListBuilder(theTvDao.getOnTheAir(), config).build()
+        },
         networkCall = { remoteData.getOnTheAir() },
         saveCallResult = { theTvDao.insertOnTheAir(it.results) }
     )
 
-    override fun getPopular(): LiveData<Result<List<PopularTv>>> = liveDataResult(
-        databaseQuery = { theTvDao.getPopularTv() },
+    override fun getPopular(): LiveData<Result<PagedList<PopularTv>>> = liveDataResult(
+        databaseQuery = {
+            val config = PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setInitialLoadSizeHint(4)
+                .setPageSize(4)
+                .build()
+            LivePagedListBuilder(theTvDao.getPopularTv(), config).build()
+        },
         networkCall = { remoteData.getPopular() },
         saveCallResult = { theTvDao.insertPopular(it.results) }
     )
