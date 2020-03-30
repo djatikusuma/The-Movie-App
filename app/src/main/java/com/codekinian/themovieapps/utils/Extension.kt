@@ -13,21 +13,6 @@ import androidx.lifecycle.map
 import com.codekinian.themovieapps.model.response.Result
 import kotlinx.coroutines.Dispatchers
 
-inline fun <reified T : Any> Activity.launchActivity(
-    requestCode: Int = -1,
-    options: Bundle? = null,
-    noinline init: Intent.() -> Unit = {}
-) {
-
-    val intent = newIntent<T>(this)
-    intent.init()
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        startActivityForResult(intent, requestCode, options)
-    } else {
-        startActivityForResult(intent, requestCode)
-    }
-}
-
 inline fun <reified T : Any> Context.launchActivity(
     options: Bundle? = null,
     noinline init: Intent.() -> Unit = {}
@@ -63,8 +48,13 @@ fun <T, A> liveDataResult(
     saveCallResult: suspend (A) -> Unit
 ): LiveData<Result<T>> =
     liveData(Dispatchers.IO) {
+        EspressoIdlingResource.increment()
         emit(Result.loading())
-        val source = databaseQuery.invoke().map { Result.success(it) }
+
+        val source = databaseQuery.invoke().map {
+            EspressoIdlingResource.increment()
+            Result.success(it)
+        }
         emitSource(source)
 
         val responseStatus = networkCall.invoke()

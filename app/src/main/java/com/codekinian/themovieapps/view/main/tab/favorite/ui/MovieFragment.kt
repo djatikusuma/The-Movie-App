@@ -45,6 +45,7 @@ class MovieFragment : Fragment() {
             }
         }
 
+        progress_circular.show()
         viewModel.movies.observeForever { result ->
             when (result.status) {
                 Result.Status.SUCCESS -> {

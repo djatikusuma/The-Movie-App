@@ -46,6 +46,7 @@ class TvshowFragment : Fragment() {
             }
         }
 
+        progress_circular.show()
         viewModel.tvshows.observeForever { result ->
             when (result.status) {
                 Result.Status.SUCCESS -> {

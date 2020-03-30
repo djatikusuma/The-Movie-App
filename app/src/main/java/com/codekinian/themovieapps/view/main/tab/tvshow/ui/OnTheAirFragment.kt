@@ -57,12 +57,16 @@ class OnTheAirFragment : Fragment() {
         viewModel.onTheAir.observeForever { result ->
             when (result.status) {
                 Result.Status.SUCCESS -> {
-                    progress_circular.hide()
+                    progress_circular?.let {
+                        progress_circular.hide()
+                    }
                     adapterTv.submitList(result.data)
                     adapterTv.notifyDataSetChanged()
                 }
                 Result.Status.ERROR -> {
-                    progress_circular.hide()
+                    progress_circular?.let {
+                        progress_circular.hide()
+                    }
                     activity?.toast("Gagal memuat data!")
                 }
                 Result.Status.LOADING -> {

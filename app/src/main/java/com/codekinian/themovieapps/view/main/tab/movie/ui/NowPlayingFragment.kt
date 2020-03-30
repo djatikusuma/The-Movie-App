@@ -52,15 +52,20 @@ class NowPlayingFragment : Fragment() {
             }
         }
 
+        progress_circular.show()
         viewModel.nowPlaying.observeForever { result ->
             when (result.status) {
                 Result.Status.SUCCESS -> {
-                    progress_circular.hide()
+                    progress_circular?.let {
+                        progress_circular.hide()
+                    }
                     adapterMovies.submitList(result.data)
                     adapterMovies.notifyDataSetChanged()
                 }
                 Result.Status.ERROR -> {
-                    progress_circular.hide()
+                    progress_circular?.let {
+                        progress_circular.hide()
+                    }
                     activity?.toast("Gagal memuat data!")
                 }
                 Result.Status.LOADING -> {

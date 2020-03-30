@@ -9,6 +9,7 @@ import com.codekinian.themovieapps.model.data.Movie
 import com.codekinian.themovieapps.model.data.Tvshow
 import com.codekinian.themovieapps.model.response.Result
 import com.codekinian.themovieapps.model.room.TheMovieDatabase
+import com.codekinian.themovieapps.utils.EspressoIdlingResource
 import com.codekinian.themovieapps.view.main.tab.favorite.data.FavoriteDataSource
 import kotlinx.coroutines.Dispatchers
 
@@ -38,25 +39,33 @@ class FavoriteTabRepository private constructor(
 
     override fun getFavoriteMovies(): LiveData<Result<PagedList<Movie>>> =
         liveData(Dispatchers.IO) {
-        emit(Result.loading())
+            EspressoIdlingResource.increment()
+            emit(Result.loading())
             val config = PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)
                 .setPageSize(10)
                 .build()
             val database = LivePagedListBuilder(theMovieDao.getMovies(), config).build()
-            val source = database.map { Result.success(it) }
-        emitSource(source)
+            val source = database.map {
+                EspressoIdlingResource.increment()
+                Result.success(it)
+            }
+            emitSource(source)
     }
 
     override fun getFavoriteTvShows(): LiveData<Result<PagedList<Tvshow>>> =
         liveData(Dispatchers.IO) {
-        emit(Result.loading())
+            EspressoIdlingResource.increment()
+            emit(Result.loading())
             val config = PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)
                 .setPageSize(10)
                 .build()
             val database = LivePagedListBuilder(theTvDao.getTvShows(), config).build()
-            val source = database.map { Result.success(it) }
-        emitSource(source)
+            val source = database.map {
+                EspressoIdlingResource.increment()
+                Result.success(it)
+            }
+            emitSource(source)
     }
 }
