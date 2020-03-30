@@ -1,7 +1,7 @@
 package com.codekinian.themovieapps.model.room
 
-import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.codekinian.themovieapps.model.data.Tvshow
 import com.codekinian.themovieapps.model.data.tvshows.AiringToday
@@ -12,13 +12,13 @@ import com.codekinian.themovieapps.model.data.tvshows.PopularTv
 interface TheTvDao {
 
     @Query("SELECT * FROM airing_today")
-    fun getAiringToday(): LiveData<List<AiringToday>>
+    fun getAiringToday(): DataSource.Factory<Int, AiringToday>
 
     @Query("SELECT * FROM on_the_air")
-    fun getOnTheAir(): LiveData<List<OnTheAir>>
+    fun getOnTheAir(): DataSource.Factory<Int, OnTheAir>
 
     @Query("SELECT * FROM popular_tv")
-    fun getPopularTv(): LiveData<List<PopularTv>>
+    fun getPopularTv(): DataSource.Factory<Int, PopularTv>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAiringToday(airingTodays: List<AiringToday>)
@@ -46,9 +46,8 @@ interface TheTvDao {
     @Query("SELECT * FROM tvshow_tb WHERE id = :id")
     fun getTvShowById(id: Int): LiveData<Tvshow>
 
-    @WorkerThread
     @Query("SELECT * FROM tvshow_tb where isFavorite = 1")
-    fun getTvShows(): LiveData<List<Tvshow>>
+    fun getTvShows(): DataSource.Factory<Int, Tvshow>
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateTvShow(movie: Tvshow): Int

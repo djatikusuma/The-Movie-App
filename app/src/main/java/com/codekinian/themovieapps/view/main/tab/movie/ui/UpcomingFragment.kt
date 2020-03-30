@@ -56,7 +56,8 @@ class UpcomingFragment : Fragment() {
             when (result.status) {
                 Result.Status.SUCCESS -> {
                     progress_circular.hide()
-                    adapterMovies.updateData(result.data)
+                    adapterMovies.submitList(result.data)
+                    adapterMovies.notifyDataSetChanged()
                 }
                 Result.Status.ERROR -> {
                     progress_circular.hide()

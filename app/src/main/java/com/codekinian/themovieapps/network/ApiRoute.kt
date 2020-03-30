@@ -17,13 +17,13 @@ import retrofit2.http.Query
 interface ApiRoute {
     // Movie Route
     @GET("movie/now_playing")
-    suspend fun nowPlayingMovie(@Query("page") page: Int = 1, @Query("api_key") key: String = BuildConfig.KEY): Response<NowPlaying.Result>
+    suspend fun nowPlayingMovie(@Query("page") page: Int, @Query("api_key") key: String = BuildConfig.KEY): Response<NowPlaying.Result>
 
     @GET("movie/popular")
-    suspend fun popularMovie(@Query("page") page: Int = 1, @Query("api_key") key: String = BuildConfig.KEY): Response<PopularMovie.Result>
+    suspend fun popularMovie(@Query("page") page: Int, @Query("api_key") key: String = BuildConfig.KEY): Response<PopularMovie.Result>
 
     @GET("movie/upcoming")
-    suspend fun upcomingMovie(@Query("page") page: Int = 1, @Query("api_key") key: String = BuildConfig.KEY): Response<Upcoming.Result>
+    suspend fun upcomingMovie(@Query("page") page: Int, @Query("api_key") key: String = BuildConfig.KEY): Response<Upcoming.Result>
 
     @GET("movie/{movie_id}")
     suspend fun detailMovie(@Path("movie_id") movie_id: Int, @Query("api_key") key: String = BuildConfig.KEY): Response<Movie>

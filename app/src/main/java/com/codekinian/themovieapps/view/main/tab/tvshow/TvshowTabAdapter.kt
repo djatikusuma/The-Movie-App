@@ -3,6 +3,8 @@ package com.codekinian.themovieapps.view.main.tab.tvshow
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.codekinian.themovieapps.databinding.TvshowItemBinding
 import com.codekinian.themovieapps.model.data.Tvshow
@@ -15,24 +17,17 @@ import kotlinx.android.extensions.LayoutContainer
 
 class TvshowTabAdapter<A>(
     private val onClick: (Int) -> Unit
-) : RecyclerView.Adapter<TvshowTabAdapter<A>.ViewHolder>() {
-    private val tvshows = ArrayList<A>()
+) : PagedListAdapter<A, TvshowTabAdapter<A>.ViewHolder>(TvShowCallback<A>()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         TvshowItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
-    override fun getItemCount(): Int = tvshows.size
-
-    fun updateData(newList: List<A>?) {
-        if (newList == null) return
-        tvshows.clear()
-        tvshows.addAll(newList)
-        notifyDataSetChanged()
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindItem(tvshows[position])
+        val tvshows = getItem(position)
+        tvshows?.let {
+            holder.bindItem(it)
+        }
     }
 
     inner class ViewHolder(private val view: TvshowItemBinding) :
@@ -107,6 +102,33 @@ class TvshowTabAdapter<A>(
                     }
                 }
             }
+        }
+    }
+}
+
+private class TvShowCallback<A> : DiffUtil.ItemCallback<A>() {
+
+    override fun areItemsTheSame(oldItem: A, newItem: A): Boolean {
+        return if ((oldItem is AiringToday) && (newItem is AiringToday)) {
+            oldItem.name == newItem.name
+        } else if ((oldItem is OnTheAir) && (newItem is OnTheAir)) {
+            oldItem.name == newItem.name
+        } else if ((oldItem is PopularTv) && (newItem is PopularTv)) {
+            oldItem.name == newItem.name
+        } else {
+            (oldItem as Tvshow).name == (newItem as Tvshow).name
+        }
+    }
+
+    override fun areContentsTheSame(oldItem: A, newItem: A): Boolean {
+        return if ((oldItem is AiringToday) && (newItem is AiringToday)) {
+            (oldItem as AiringToday) == (newItem as AiringToday)
+        } else if ((oldItem is OnTheAir) && (newItem is OnTheAir)) {
+            (oldItem as OnTheAir) == (newItem as OnTheAir)
+        } else if ((oldItem is PopularTv) && (newItem is PopularTv)) {
+            (oldItem as PopularTv) == (newItem as PopularTv)
+        } else {
+            (oldItem as Tvshow) == (newItem as Tvshow)
         }
     }
 }

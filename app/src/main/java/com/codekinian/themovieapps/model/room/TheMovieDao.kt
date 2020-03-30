@@ -1,7 +1,7 @@
 package com.codekinian.themovieapps.model.room
 
-import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.codekinian.themovieapps.model.data.Movie
 import com.codekinian.themovieapps.model.data.movies.NowPlaying
@@ -12,13 +12,13 @@ import com.codekinian.themovieapps.model.data.movies.Upcoming
 interface TheMovieDao {
 
     @Query("SELECT * FROM now_playing")
-    fun getNowPlaying(): LiveData<List<NowPlaying>>
+    fun getNowPlaying(): DataSource.Factory<Int, NowPlaying>
 
     @Query("SELECT * FROM popular_movie")
-    fun getPopularMovie(): LiveData<List<PopularMovie>>
+    fun getPopularMovie(): DataSource.Factory<Int, PopularMovie>
 
     @Query("SELECT * FROM upcoming")
-    fun getUpcoming(): LiveData<List<Upcoming>>
+    fun getUpcoming(): DataSource.Factory<Int, Upcoming>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNowPlaying(nowPlayings: List<NowPlaying>)
@@ -46,9 +46,8 @@ interface TheMovieDao {
     @Query("SELECT * FROM movie_tb WHERE id = :id")
     fun getMovieById(id: Int): LiveData<Movie>
 
-    @WorkerThread
     @Query("SELECT * FROM movie_tb where isFavorite = 1")
-    fun getMovies(): LiveData<List<Movie>>
+    fun getMovies(): DataSource.Factory<Int, Movie>
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateMovie(movie: Movie): Int

@@ -50,7 +50,8 @@ class TvshowFragment : Fragment() {
             when (result.status) {
                 Result.Status.SUCCESS -> {
                     progress_circular.hide()
-                    adapterTv.updateData(result.data)
+                    adapterTv.submitList(result.data)
+                    adapterTv.notifyDataSetChanged()
                 }
                 Result.Status.ERROR -> {
                     progress_circular.hide()
@@ -64,7 +65,6 @@ class TvshowFragment : Fragment() {
 
         with(rv_tvshow) {
             layoutManager = LinearLayoutManager(context)
-            setHasFixedSize(true)
             adapter = adapterTv
         }
     }

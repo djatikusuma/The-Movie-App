@@ -16,11 +16,11 @@ class MovieRemoteDataSource(private val service: ApiRoute) : BaseDataSource() {
             }
     }
 
-    suspend fun getNowPlaying() = getResult { service.nowPlayingMovie() }
+    suspend fun getNowPlaying(page: Int) = getResult { service.nowPlayingMovie(page) }
 
-    suspend fun getPopular() = getResult { service.popularMovie() }
+    suspend fun getPopular(page: Int) = getResult { service.popularMovie(page) }
 
-    suspend fun getUpcoming() = getResult { service.upcomingMovie() }
+    suspend fun getUpcoming(page: Int) = getResult { service.upcomingMovie(page) }
 
     suspend fun getDetailMovie(movieId: Int) = getResult { service.detailMovie(movieId) }
 

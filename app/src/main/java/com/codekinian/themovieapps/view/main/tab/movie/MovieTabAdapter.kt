@@ -3,6 +3,8 @@ package com.codekinian.themovieapps.view.main.tab.movie
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.codekinian.themovieapps.databinding.MovieItemBinding
 import com.codekinian.themovieapps.model.data.Movie
@@ -15,24 +17,17 @@ import kotlinx.android.extensions.LayoutContainer
 
 class MovieTabAdapter<A>(
     private val onClick: (Int) -> Unit
-) : RecyclerView.Adapter<MovieTabAdapter<A>.ViewHolder>() {
-    private val movies = ArrayList<A>()
+) : PagedListAdapter<A, MovieTabAdapter<A>.ViewHolder>(MovieCallBack<A>()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
-    override fun getItemCount(): Int = movies.size
-
-    fun updateData(newList: List<A>?) {
-        if (newList == null) return
-        movies.clear()
-        movies.addAll(newList)
-        notifyDataSetChanged()
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindItem(movies[position])
+        val movies = getItem(position)
+        movies?.let {
+            holder.bindItem(it)
+        }
     }
 
     inner class ViewHolder(private val view: MovieItemBinding) : RecyclerView.ViewHolder(view.root),
@@ -106,6 +101,33 @@ class MovieTabAdapter<A>(
                     }
                 }
             }
+        }
+    }
+}
+
+private class MovieCallBack<A> : DiffUtil.ItemCallback<A>() {
+
+    override fun areItemsTheSame(oldItem: A, newItem: A): Boolean {
+        return if ((oldItem is NowPlaying) && (newItem is NowPlaying)) {
+            oldItem.title == newItem.title
+        } else if ((oldItem is PopularMovie) && (newItem is PopularMovie)) {
+            oldItem.title == newItem.title
+        } else if ((oldItem is Upcoming) && (newItem is Upcoming)) {
+            oldItem.title == newItem.title
+        } else {
+            (oldItem as Movie).title == (newItem as Movie).title
+        }
+    }
+
+    override fun areContentsTheSame(oldItem: A, newItem: A): Boolean {
+        return if ((oldItem is NowPlaying) && (newItem is NowPlaying)) {
+            (oldItem as NowPlaying) == (newItem as NowPlaying)
+        } else if ((oldItem is PopularMovie) && (newItem is PopularMovie)) {
+            (oldItem as PopularMovie) == (newItem as PopularMovie)
+        } else if ((oldItem is Upcoming) && (newItem is Upcoming)) {
+            (oldItem as Upcoming) == (newItem as Upcoming)
+        } else {
+            (oldItem as Movie) == (newItem as Movie)
         }
     }
 }

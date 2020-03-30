@@ -3,6 +3,8 @@ package com.codekinian.themovieapps.view.main.tab.favorite
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.codekinian.themovieapps.model.data.Movie
 import com.codekinian.themovieapps.model.data.Tvshow
 import com.codekinian.themovieapps.model.response.Result
@@ -34,15 +36,27 @@ class FavoriteTabRepository private constructor(
         theMovieDatabase.theTvDao()
     }
 
-    override fun getFavoriteMovies(): LiveData<Result<List<Movie>>> = liveData(Dispatchers.IO) {
+    override fun getFavoriteMovies(): LiveData<Result<PagedList<Movie>>> =
+        liveData(Dispatchers.IO) {
         emit(Result.loading())
-        val source = theMovieDao.getMovies().map { Result.success(it) }
+            val config = PagedList.Config.Builder()
+                .setInitialLoadSizeHint(10)
+                .setPageSize(10)
+                .build()
+            val database = LivePagedListBuilder(theMovieDao.getMovies(), config).build()
+            val source = database.map { Result.success(it) }
         emitSource(source)
     }
 
-    override fun getFavoriteTvShows(): LiveData<Result<List<Tvshow>>> = liveData(Dispatchers.IO) {
+    override fun getFavoriteTvShows(): LiveData<Result<PagedList<Tvshow>>> =
+        liveData(Dispatchers.IO) {
         emit(Result.loading())
-        val source = theTvDao.getTvShows().map { Result.success(it) }
+            val config = PagedList.Config.Builder()
+                .setInitialLoadSizeHint(10)
+                .setPageSize(10)
+                .build()
+            val database = LivePagedListBuilder(theTvDao.getTvShows(), config).build()
+            val source = database.map { Result.success(it) }
         emitSource(source)
     }
 }

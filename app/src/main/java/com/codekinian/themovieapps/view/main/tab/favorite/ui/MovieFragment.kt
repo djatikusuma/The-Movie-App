@@ -36,8 +36,8 @@ class MovieFragment : Fragment() {
         return inflater.inflate(R.layout.movie_viewpager_fragment, container, false)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         val adapterMovies = MovieTabAdapter<Movie> {
             context?.launchActivity<DetailMovieActivity> {
                 putExtra(Constant.MOVIE_ID, it)
@@ -49,7 +49,8 @@ class MovieFragment : Fragment() {
             when (result.status) {
                 Result.Status.SUCCESS -> {
                     progress_circular.hide()
-                    adapterMovies.updateData(result.data)
+                    adapterMovies.submitList(result.data)
+                    adapterMovies.notifyDataSetChanged()
                 }
                 Result.Status.ERROR -> {
                     progress_circular.hide()
@@ -63,7 +64,6 @@ class MovieFragment : Fragment() {
 
         with(rv_movies) {
             layoutManager = LinearLayoutManager(context)
-            setHasFixedSize(true)
             adapter = adapterMovies
         }
     }
