@@ -12,4 +12,6 @@ interface TvshowDataSource {
     fun getOnTheAir(): LiveData<Result<List<OnTheAir>>>
     fun getPopular(): LiveData<Result<List<PopularTv>>>
     fun getDetailTv(category: String, tvId: Int): LiveData<Result<Tvshow>>
+    fun getFavoriteTvById(tvId: Int): LiveData<Tvshow>
+    fun setFavoriteTv(tvshow: Tvshow, isFavorite: Boolean)
 }

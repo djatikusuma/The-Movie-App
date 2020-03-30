@@ -10,10 +10,13 @@ import com.codekinian.themovieapps.model.room.TheMovieDao
 import com.codekinian.themovieapps.utils.liveDataResult
 import com.codekinian.themovieapps.view.main.tab.movie.data.MovieDataSource
 import com.codekinian.themovieapps.view.main.tab.movie.data.MovieRemoteDataSource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 class MovieTabRepository private constructor(
     private val theMovieDao: TheMovieDao,
-    private val remoteData: MovieRemoteDataSource
+    private val remoteData: MovieRemoteDataSource,
+    private val scope: CoroutineScope
 ) : MovieDataSource {
 
     companion object {
@@ -22,10 +25,11 @@ class MovieTabRepository private constructor(
 
         fun getInstance(
             theMovieDao: TheMovieDao,
-            remoteData: MovieRemoteDataSource
+            remoteData: MovieRemoteDataSource,
+            scope: CoroutineScope
         ): MovieTabRepository =
             instance ?: synchronized(this) {
-                instance ?: MovieTabRepository(theMovieDao, remoteData)
+                instance ?: MovieTabRepository(theMovieDao, remoteData, scope)
             }
     }
 
@@ -52,11 +56,21 @@ class MovieTabRepository private constructor(
             databaseQuery = {
                 when (category) {
                     "now_playing" -> theMovieDao.getNowPlayingById(movieId)
-                    "popular" -> theMovieDao.getPopularMovieById(movieId)
-                    else -> theMovieDao.getUpcomingById(movieId)
-            }
+                    "upcoming" -> theMovieDao.getUpcomingById(movieId)
+                    else -> theMovieDao.getPopularMovieById(movieId)
+                }
             },
             networkCall = { remoteData.getDetailMovie(movieId) },
-            saveCallResult = { theMovieDao.insertMovie(it) }
+            saveCallResult = { theMovieDao.insertDetailMovie(it) }
         )
+
+    override fun getFavoriteMovieById(movieId: Int): LiveData<Movie> =
+        theMovieDao.getMovieById(movieId)
+
+    override fun setFavoriteMovie(movie: Movie, isFavorite: Boolean) {
+        scope.launch {
+            movie.isFavorite = isFavorite
+            theMovieDao.updateMovie(movie)
+        }
+    }
 }

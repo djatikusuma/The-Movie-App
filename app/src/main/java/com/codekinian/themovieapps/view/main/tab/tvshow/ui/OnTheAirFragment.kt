@@ -19,6 +19,8 @@ import com.codekinian.themovieapps.view.main.tab.tvshow.TvshowTabViewModel
 import com.codekinian.themovieapps.view.main.tab.tvshow.data.TvshowRemoteDataSource
 import kotlinx.android.synthetic.main.movie_viewpager_fragment.progress_circular
 import kotlinx.android.synthetic.main.tvshow_viewpager_fragment.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 class OnTheAirFragment : Fragment() {
     private val viewModel by lazy {
@@ -27,7 +29,9 @@ class OnTheAirFragment : Fragment() {
             val theTvDao = TheMovieDatabase.getInstance(context!!).theTvDao()
             TvshowTabViewModel(
                 TvshowTabRepository.getInstance(
-                    theTvDao, remoteDataSource
+                    theTvDao, remoteDataSource, CoroutineScope(
+                        Dispatchers.IO
+                    )
                 )
             )
         }

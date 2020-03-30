@@ -10,10 +10,13 @@ import com.codekinian.themovieapps.model.room.TheTvDao
 import com.codekinian.themovieapps.utils.liveDataResult
 import com.codekinian.themovieapps.view.main.tab.tvshow.data.TvshowDataSource
 import com.codekinian.themovieapps.view.main.tab.tvshow.data.TvshowRemoteDataSource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 class TvshowTabRepository private constructor(
     private val theTvDao: TheTvDao,
-    private val remoteData: TvshowRemoteDataSource
+    private val remoteData: TvshowRemoteDataSource,
+    private val scope: CoroutineScope
 ) : TvshowDataSource {
 
     companion object {
@@ -22,10 +25,11 @@ class TvshowTabRepository private constructor(
 
         fun getInstance(
             theTvDao: TheTvDao,
-            remoteData: TvshowRemoteDataSource
+            remoteData: TvshowRemoteDataSource,
+            scope: CoroutineScope
         ): TvshowTabRepository =
             instance ?: synchronized(this) {
-                instance ?: TvshowTabRepository(theTvDao, remoteData)
+                instance ?: TvshowTabRepository(theTvDao, remoteData, scope)
             }
     }
 
@@ -57,8 +61,18 @@ class TvshowTabRepository private constructor(
                 }
             },
             networkCall = { remoteData.getDetailTv(tvId) },
-            saveCallResult = { theTvDao.insertTvShow(it) }
+            saveCallResult = { theTvDao.insertDetailTvShow(it) }
         )
+
+    override fun getFavoriteTvById(tvId: Int): LiveData<Tvshow> =
+        theTvDao.getTvShowById(tvId)
+
+    override fun setFavoriteTv(tvshow: Tvshow, isFavorite: Boolean) {
+        scope.launch {
+            tvshow.isFavorite = isFavorite
+            theTvDao.updateTvShow(tvshow)
+        }
+    }
 
 
 }

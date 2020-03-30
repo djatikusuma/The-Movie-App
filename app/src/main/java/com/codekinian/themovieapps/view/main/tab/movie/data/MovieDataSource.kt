@@ -12,4 +12,6 @@ interface MovieDataSource {
     fun getPopular(): LiveData<Result<List<PopularMovie>>>
     fun getUpcoming(): LiveData<Result<List<Upcoming>>>
     fun getDetailMovie(category: String, movieId: Int): LiveData<Result<Movie>>
+    fun getFavoriteMovieById(movieId: Int): LiveData<Movie>
+    fun setFavoriteMovie(movie: Movie, isFavorite: Boolean)
 }

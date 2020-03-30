@@ -34,7 +34,7 @@ data class PopularTv(
     val vote_average: String?,
 
     @ColumnInfo(name = "isFavorite")
-    val isFavorite: Boolean = false,
+    var isFavorite: Boolean = false,
 
     @ColumnInfo(name = "status")
     val status: String? = null

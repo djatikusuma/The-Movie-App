@@ -29,9 +29,6 @@ interface TheMovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUpcoming(upcomings: List<Upcoming>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMovie(movie: Movie)
-
     @Query("SELECT * FROM now_playing WHERE id = :id")
     fun getNowPlayingById(id: Int): LiveData<Movie>
 
@@ -42,18 +39,18 @@ interface TheMovieDao {
     fun getUpcomingById(id: Int): LiveData<Movie>
 
     // Favorite Dao
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertDetailMovie(movie: Movie)
+
     @Transaction
     @Query("SELECT * FROM movie_tb WHERE id = :id")
-    fun getFavoriteMovieById(id: Int): LiveData<Movie>
+    fun getMovieById(id: Int): LiveData<Movie>
 
     @WorkerThread
     @Query("SELECT * FROM movie_tb where isFavorite = 1")
-    fun getFavoriteMovies(): LiveData<List<Movie>>
+    fun getMovies(): LiveData<List<Movie>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertFavoriteMovies(movies: List<Movie>): LongArray
-
-    @Update(onConflict = OnConflictStrategy.ABORT)
-    fun updateFavoriteMovie(movie: Movie): Int
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun updateMovie(movie: Movie): Int
 
 }

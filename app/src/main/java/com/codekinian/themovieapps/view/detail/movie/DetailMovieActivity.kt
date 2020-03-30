@@ -2,7 +2,10 @@ package com.codekinian.themovieapps.view.detail.movie
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.codekinian.themovieapps.R
 import com.codekinian.themovieapps.databinding.ActivityDetailMovieBinding
@@ -17,6 +20,8 @@ import com.codekinian.themovieapps.utils.show
 import com.codekinian.themovieapps.utils.toast
 import com.codekinian.themovieapps.view.main.tab.movie.MovieTabRepository
 import com.codekinian.themovieapps.view.main.tab.movie.data.MovieRemoteDataSource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 class DetailMovieActivity : AppCompatActivity() {
     private val viewModel by lazy {
@@ -25,7 +30,9 @@ class DetailMovieActivity : AppCompatActivity() {
             val theMovieDao = TheMovieDatabase.getInstance(this).theMovieDao()
             DetailMovieViewModel(
                 MovieTabRepository.getInstance(
-                    theMovieDao, remoteDataSource
+                    theMovieDao, remoteDataSource, CoroutineScope(
+                        Dispatchers.IO
+                    )
                 )
             )
         }
@@ -37,6 +44,8 @@ class DetailMovieActivity : AppCompatActivity() {
             R.layout.activity_detail_movie
         )
     }
+
+    private lateinit var menu: Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +65,10 @@ class DetailMovieActivity : AppCompatActivity() {
                         viewBinding.progressCircular.hide()
                         viewBinding.viewDetail.show()
                         viewBinding.movie = result.data
+
+                        result.data?.let {
+                            viewModel.setMovieId(it.id)
+                        }
                     }
                     Result.Status.LOADING -> {
                         viewBinding.progressCircular.show()
@@ -81,6 +94,34 @@ class DetailMovieActivity : AppCompatActivity() {
         viewBinding.toolbar.setNavigationOnClickListener {
             finish()
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.detail_menu, menu)
+        menu?.let { this.menu = it }
+        viewModel.isFavoriteMovie.observeForever {
+            it?.let {
+                setIconFavorite(it.isFavorite)
+            }
+        }
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_favorite) {
+            viewModel.setFavoriteMovie()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun setIconFavorite(state: Boolean) {
+        val menuItem = menu.findItem(R.id.action_favorite)
+        if (state) {
+            menuItem?.icon = ContextCompat.getDrawable(this, R.drawable.star_active)
+        } else {
+            menuItem?.icon = ContextCompat.getDrawable(this, R.drawable.star)
         }
     }
 }
