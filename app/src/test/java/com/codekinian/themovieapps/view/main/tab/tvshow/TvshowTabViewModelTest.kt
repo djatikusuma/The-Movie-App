@@ -3,7 +3,10 @@ package com.codekinian.themovieapps.view.main.tab.tvshow
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.codekinian.themovieapps.model.data.Tvshow
+import com.codekinian.themovieapps.model.data.tvshows.AiringToday
+import com.codekinian.themovieapps.model.data.tvshows.OnTheAir
+import com.codekinian.themovieapps.model.data.tvshows.PopularTv
+import com.codekinian.themovieapps.model.response.Result
 import com.codekinian.themovieapps.utils.DataDummy
 import com.nhaarman.mockitokotlin2.verify
 import junit.framework.TestCase.assertEquals
@@ -16,7 +19,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
@@ -32,7 +34,13 @@ class TvshowTabViewModelTest {
     private lateinit var repository: TvshowTabRepository
 
     @Mock
-    private lateinit var observer: Observer<Tvshow.TvResult>
+    private lateinit var observerAiringToday: Observer<Result<List<AiringToday>>>
+
+    @Mock
+    private lateinit var observerPopular: Observer<Result<List<PopularTv>>>
+
+    @Mock
+    private lateinit var observerOnTheAir: Observer<Result<List<OnTheAir>>>
 
     @Before
     fun setUp() {
@@ -42,54 +50,51 @@ class TvshowTabViewModelTest {
     @Test
     fun getAiringToday() {
         scope.launch {
-            val dummyTvshow = DataDummy.generateDummyTvshows()
-            val tvshows = MutableLiveData<Tvshow.TvResult>()
+            val dummyTvshow = Result.success(DataDummy.generateDummyAiringToday())
+            val tvshows = MutableLiveData<Result<List<AiringToday>>>()
             tvshows.value = dummyTvshow
 
-            `when`(repository.getAiringToday()).thenReturn(tvshows)
-            val tvData = viewModel.airingToday.value
+            val tvData = viewModel.airingToday.value?.data
             verify(repository).getAiringToday()
             assertNotNull(tvData)
-            assertEquals(10, tvData?.results?.size)
+            assertEquals(10, tvData?.size)
 
-            viewModel.airingToday.observeForever(observer)
-            verify(observer).onChanged(dummyTvshow)
+            viewModel.airingToday.observeForever(observerAiringToday)
+            verify(observerAiringToday).onChanged(dummyTvshow)
         }
     }
 
     @Test
     fun getOnTheAir() {
         scope.launch {
-            val dummyTvshow = DataDummy.generateDummyTvshows()
-            val tvshows = MutableLiveData<Tvshow.TvResult>()
+            val dummyTvshow = Result.success(DataDummy.generateDummyOnTheAir())
+            val tvshows = MutableLiveData<Result<List<OnTheAir>>>()
             tvshows.value = dummyTvshow
 
-            `when`(repository.getOnTheAir()).thenReturn(tvshows)
-            val tvData = viewModel.onTheAir.value
+            val tvData = viewModel.onTheAir.value?.data
             verify(repository).getOnTheAir()
             assertNotNull(tvData)
-            assertEquals(10, tvData?.results?.size)
+            assertEquals(10, tvData?.size)
 
-            viewModel.onTheAir.observeForever(observer)
-            verify(observer).onChanged(dummyTvshow)
+            viewModel.onTheAir.observeForever(observerOnTheAir)
+            verify(observerOnTheAir).onChanged(dummyTvshow)
         }
     }
 
     @Test
     fun getPopular() {
         scope.launch {
-            val dummyTvshow = DataDummy.generateDummyTvshows()
-            val tvshows = MutableLiveData<Tvshow.TvResult>()
+            val dummyTvshow = Result.success(DataDummy.generateDummyPopularTv())
+            val tvshows = MutableLiveData<Result<List<PopularTv>>>()
             tvshows.value = dummyTvshow
 
-            `when`(repository.getPopular()).thenReturn(tvshows)
-            val tvData = viewModel.popularTv.value
+            val tvData = viewModel.popularTv.value?.data
             verify(repository).getPopular()
             assertNotNull(tvData)
-            assertEquals(10, tvData?.results?.size)
+            assertEquals(10, tvData?.size)
 
-            viewModel.popularTv.observeForever(observer)
-            verify(observer).onChanged(dummyTvshow)
+            viewModel.popularTv.observeForever(observerPopular)
+            verify(observerPopular).onChanged(dummyTvshow)
         }
     }
 }

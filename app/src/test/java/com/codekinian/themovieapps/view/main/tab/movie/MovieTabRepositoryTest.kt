@@ -1,6 +1,7 @@
 package com.codekinian.themovieapps.view.main.tab.movie
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.codekinian.themovieapps.model.room.TheMovieDao
 import com.codekinian.themovieapps.utils.DataDummy
 import com.codekinian.themovieapps.utils.LiveDataTestUtil
 import com.codekinian.themovieapps.view.main.tab.movie.data.MovieRemoteDataSource
@@ -20,10 +21,13 @@ class MovieTabRepositoryTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    private val theMovieDao = Mockito.mock(TheMovieDao::class.java)
     private val remote = Mockito.mock(MovieRemoteDataSource::class.java)
     private val scope = CoroutineScope(Dispatchers.IO)
-    private val repository = FakeMovieTabRepository(remote, scope)
-    private val moviesResponse = DataDummy.generateDummyMovies()
+    private val repository = FakeMovieTabRepository(theMovieDao, remote, scope)
+    private val nowPlaying = DataDummy.generateDummyNowPlaying()
+    private val popularMovie = DataDummy.generateDummyPopularMovie()
+    private val upcoming = DataDummy.generateDummyUpcoming()
 
     @Test
     fun getNowPlaying() {
@@ -32,7 +36,7 @@ class MovieTabRepositoryTest {
             val movies = LiveDataTestUtil.getValue(repository.getNowPlaying())
             verify(remote).getNowPlaying()
             assertNotNull(movies)
-            assertEquals(moviesResponse.results.size.toLong(), movies.results.size.toLong())
+            assertEquals(nowPlaying.size.toLong(), movies.data?.size?.toLong())
         }
     }
 
@@ -43,7 +47,7 @@ class MovieTabRepositoryTest {
             val movies = LiveDataTestUtil.getValue(repository.getPopular())
             verify(remote).getPopular()
             assertNotNull(movies)
-            assertEquals(moviesResponse.results.size.toLong(), movies.results.size.toLong())
+            assertEquals(popularMovie.size.toLong(), movies.data?.size?.toLong())
         }
     }
 
@@ -54,19 +58,19 @@ class MovieTabRepositoryTest {
             val movies = LiveDataTestUtil.getValue(repository.getUpcoming())
             verify(remote).getUpcoming()
             assertNotNull(movies)
-            assertEquals(moviesResponse.results.size.toLong(), movies.results.size.toLong())
+            assertEquals(upcoming.size.toLong(), movies.data?.size?.toLong())
         }
     }
 
     @Test
     fun getDetailTv() {
         scope.launch {
-            val movieId = moviesResponse.results[0].id
+            val movieId = nowPlaying[0].id
             Mockito.`when`(remote.getDetailMovie(movieId)).thenReturn(any())
-            val movie = LiveDataTestUtil.getValue(repository.getDetailMovie(movieId))
+            val movie = LiveDataTestUtil.getValue(repository.getDetailMovie("now_playing", movieId))
             verify(remote).getDetailMovie(movieId)
             assertNotNull(movie)
-            assertEquals(moviesResponse.results[0].title, movie.title)
+            assertEquals(nowPlaying[0].title, movie.data?.title)
         }
     }
 }

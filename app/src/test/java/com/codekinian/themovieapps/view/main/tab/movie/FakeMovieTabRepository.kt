@@ -1,74 +1,63 @@
 package com.codekinian.themovieapps.view.main.tab.movie
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.codekinian.themovieapps.model.data.Movie
-import com.codekinian.themovieapps.model.response.Result.Status
+import com.codekinian.themovieapps.model.data.movies.NowPlaying
+import com.codekinian.themovieapps.model.data.movies.PopularMovie
+import com.codekinian.themovieapps.model.data.movies.Upcoming
+import com.codekinian.themovieapps.model.response.Result
+import com.codekinian.themovieapps.model.room.TheMovieDao
+import com.codekinian.themovieapps.utils.liveDataResult
 import com.codekinian.themovieapps.view.main.tab.movie.data.MovieDataSource
 import com.codekinian.themovieapps.view.main.tab.movie.data.MovieRemoteDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class FakeMovieTabRepository(
+class FakeMovieTabRepository constructor(
+    private val theMovieDao: TheMovieDao,
     private val remoteData: MovieRemoteDataSource,
     private val scope: CoroutineScope
 ) : MovieDataSource {
 
-    override fun getNowPlaying(): LiveData<Movie.MovieResult> {
-        val movieResult = MutableLiveData<Movie.MovieResult>()
-        scope.launch {
-            val response = remoteData.getNowPlaying()
-            if (response.status == Status.SUCCESS) {
-                response.data?.let {
-                    movieResult.postValue(it)
+    override fun getNowPlaying(): LiveData<Result<List<NowPlaying>>> = liveDataResult(
+        databaseQuery = { theMovieDao.getNowPlaying() },
+        networkCall = { remoteData.getNowPlaying() },
+        saveCallResult = { theMovieDao.insertNowPlaying(it.results) }
+    )
+
+    override fun getPopular(): LiveData<Result<List<PopularMovie>>> = liveDataResult(
+        databaseQuery = { theMovieDao.getPopularMovie() },
+        networkCall = { remoteData.getPopular() },
+        saveCallResult = { theMovieDao.insertPopularMovie(it.results) }
+    )
+
+    override fun getUpcoming(): LiveData<Result<List<Upcoming>>> = liveDataResult(
+        databaseQuery = { theMovieDao.getUpcoming() },
+        networkCall = { remoteData.getUpcoming() },
+        saveCallResult = { theMovieDao.insertUpcoming(it.results) }
+    )
+
+    override fun getDetailMovie(category: String, movieId: Int): LiveData<Result<Movie>> =
+        liveDataResult(
+            databaseQuery = {
+                when (category) {
+                    "now_playing" -> theMovieDao.getNowPlayingById(movieId)
+                    "upcoming" -> theMovieDao.getUpcomingById(movieId)
+                    "popular" -> theMovieDao.getPopularMovieById(movieId)
+                    else -> theMovieDao.getMovieById(movieId)
                 }
-            }
-        }
+            },
+            networkCall = { remoteData.getDetailMovie(movieId) },
+            saveCallResult = { theMovieDao.insertDetailMovie(it) }
+        )
 
-        return movieResult
-    }
+    override fun getFavoriteMovieById(movieId: Int): LiveData<Movie> =
+        theMovieDao.getMovieById(movieId)
 
-    override fun getPopular(): LiveData<Movie.MovieResult> {
-        val movieResult = MutableLiveData<Movie.MovieResult>()
+    override fun setFavoriteMovie(movie: Movie, isFavorite: Boolean) {
         scope.launch {
-            val response = remoteData.getPopular()
-            if (response.status == Status.SUCCESS) {
-                response.data?.let {
-                    movieResult.postValue(it)
-                }
-            }
+            movie.isFavorite = isFavorite
+            theMovieDao.updateMovie(movie)
         }
-
-        return movieResult
     }
-
-    override fun getUpcoming(): LiveData<Movie.MovieResult> {
-        val movieResult = MutableLiveData<Movie.MovieResult>()
-        scope.launch {
-            val response = remoteData.getUpcoming()
-            if (response.status == Status.SUCCESS) {
-                response.data?.let {
-                    movieResult.postValue(it)
-                }
-            }
-        }
-
-        return movieResult
-    }
-
-    override fun getDetailMovie(movieId: Int): LiveData<Movie> {
-        val movieResult = MutableLiveData<Movie>()
-        scope.launch {
-            val response = remoteData.getDetailMovie(movieId)
-            if (response.status == Status.SUCCESS) {
-                response.data?.let {
-                    movieResult.postValue(it)
-                }
-            }
-        }
-
-        return movieResult
-    }
-
-
 }

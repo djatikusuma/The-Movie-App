@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.codekinian.themovieapps.model.data.Movie
+import com.codekinian.themovieapps.model.response.Result
 import com.codekinian.themovieapps.utils.DataDummy
 import com.codekinian.themovieapps.view.main.tab.movie.MovieTabRepository
 import com.nhaarman.mockitokotlin2.verify
@@ -17,7 +18,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
+import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
@@ -33,7 +34,7 @@ class DetailMovieViewModelTest {
     private lateinit var repository: MovieTabRepository
 
     @Mock
-    private lateinit var observer: Observer<Movie>
+    private lateinit var observer: Observer<Result<Movie>>
 
     @Before
     fun setUp() {
@@ -43,23 +44,24 @@ class DetailMovieViewModelTest {
     @Test
     fun getDetailMovie() {
         scope.launch {
-            val movieId = DataDummy.generateDummyMovies().results[0].id
-            val dummyMovies = DataDummy.getMovieById(movieId)
-            val movies = MutableLiveData<Movie>()
+            val category = "now_playing"
+            val movieId = DataDummy.generateDummyNowPlaying()[0].id
+            val dummyMovies = Result.success(DataDummy.getMovieById(movieId)!!)
+            val movies = MutableLiveData<Result<Movie>>()
             movies.value = dummyMovies
 
-            Mockito.`when`(repository.getDetailMovie(movieId)).thenReturn(movies)
-            val moviesData = viewModel.detailMovie(movieId).value
-            verify(repository).getDetailMovie(movieId)
+            `when`(repository.getDetailMovie(category, movieId)).thenReturn(movies)
+            val moviesData = viewModel.detailMovie(category, movieId).value
+            verify(repository).getDetailMovie(category, movieId)
             assertNotNull(moviesData)
             assertNotNull(dummyMovies)
-            val title = moviesData?.title
-            val dummyTitle = dummyMovies?.title
+            val title = moviesData?.data?.title
+            val dummyTitle = dummyMovies.data?.title
             assertNotNull(title)
             assertNotNull(dummyTitle)
             assertEquals(dummyTitle, title)
 
-            viewModel.detailMovie(movieId).observeForever(observer)
+            viewModel.detailMovie(category, movieId).observeForever(observer)
             verify(observer).onChanged(dummyMovies)
         }
     }

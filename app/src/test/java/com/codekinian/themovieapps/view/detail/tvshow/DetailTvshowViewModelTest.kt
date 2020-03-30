@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.codekinian.themovieapps.model.data.Tvshow
+import com.codekinian.themovieapps.model.response.Result
 import com.codekinian.themovieapps.utils.DataDummy
 import com.codekinian.themovieapps.view.main.tab.tvshow.TvshowTabRepository
 import com.nhaarman.mockitokotlin2.verify
@@ -33,7 +34,7 @@ class DetailTvshowViewModelTest {
     private lateinit var repository: TvshowTabRepository
 
     @Mock
-    private lateinit var observer: Observer<Tvshow>
+    private lateinit var observer: Observer<Result<Tvshow>>
 
     @Before
     fun setUp() {
@@ -43,23 +44,24 @@ class DetailTvshowViewModelTest {
     @Test
     fun getDetailTv() {
         scope.launch {
-            val tvId = DataDummy.generateDummyTvshows().results[0].id
-            val dummyTv = DataDummy.getTvById(tvId)
-            val tvshows = MutableLiveData<Tvshow>()
+            val category = "airing_today"
+            val tvId = DataDummy.generateDummyAiringToday()[0].id
+            val dummyTv = Result.success(DataDummy.getTvshowById(tvId)!!)
+            val tvshows = MutableLiveData<Result<Tvshow>>()
             tvshows.value = dummyTv
 
-            `when`(repository.getDetailTv(tvId)).thenReturn(tvshows)
-            val moviesData = viewModel.detailTv(tvId).value
-            verify(repository).getDetailTv(tvId)
+            `when`(repository.getDetailTv(category, tvId)).thenReturn(tvshows)
+            val moviesData = viewModel.detailTv(category, tvId).value
+            verify(repository).getDetailTv(category, tvId)
             assertNotNull(moviesData)
             assertNotNull(dummyTv)
-            val title = moviesData?.name
-            val dummyTitle = dummyTv?.name
+            val title = moviesData?.data?.name
+            val dummyTitle = dummyTv.data?.name
             assertNotNull(title)
             assertNotNull(dummyTitle)
             TestCase.assertEquals(title, dummyTitle)
 
-            viewModel.detailTv(tvId).observeForever(observer)
+            viewModel.detailTv(category, tvId).observeForever(observer)
             verify(observer).onChanged(dummyTv)
         }
     }

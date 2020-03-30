@@ -1,6 +1,7 @@
 package com.codekinian.themovieapps.view.main.tab.tvshow
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.codekinian.themovieapps.model.room.TheTvDao
 import com.codekinian.themovieapps.utils.DataDummy
 import com.codekinian.themovieapps.utils.LiveDataTestUtil
 import com.codekinian.themovieapps.view.main.tab.tvshow.data.TvshowRemoteDataSource
@@ -16,15 +17,19 @@ import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 
+
 class TvshowTabRepositoryTest {
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    private val theTvDao = Mockito.mock(TheTvDao::class.java)
     private val remote = Mockito.mock(TvshowRemoteDataSource::class.java)
     private val scope = CoroutineScope(Dispatchers.IO)
-    private val repository = FakeTvRepository(remote, scope)
-    private val tvResponse = DataDummy.generateDummyTvshows()
+    private val repository = FakeTvshowTabRepository(theTvDao, remote, scope)
+    private val airingToday = DataDummy.generateDummyAiringToday()
+    private val onTheAir = DataDummy.generateDummyOnTheAir()
+    private val popularTv = DataDummy.generateDummyPopularTv()
 
     @Test
     fun getAiringToday() {
@@ -34,8 +39,8 @@ class TvshowTabRepositoryTest {
             verify(remote).getAiringToday()
             assertNotNull(tvshows)
             assertEquals(
-                tvResponse.results.size.toLong(),
-                tvshows.results.size.toLong()
+                airingToday.size.toLong(),
+                tvshows.data?.size?.toLong()
             )
         }
     }
@@ -48,8 +53,8 @@ class TvshowTabRepositoryTest {
             verify(remote).getOnTheAir()
             assertNotNull(tvshows)
             assertEquals(
-                tvResponse.results.size.toLong(),
-                tvshows.results.size.toLong()
+                onTheAir.size.toLong(),
+                tvshows.data?.size?.toLong()
             )
         }
     }
@@ -62,8 +67,8 @@ class TvshowTabRepositoryTest {
             verify(remote).getPopular()
             assertNotNull(tvshows)
             assertEquals(
-                tvResponse.results.size.toLong(),
-                tvshows.results.size.toLong()
+                popularTv.size.toLong(),
+                tvshows.data?.size?.toLong()
             )
         }
     }
@@ -71,12 +76,12 @@ class TvshowTabRepositoryTest {
     @Test
     fun getDetailTv() {
         scope.launch {
-            val tvId = tvResponse.results[0].id
+            val tvId = airingToday[0].id
             `when`(remote.getDetailTv(tvId)).thenReturn(any())
-            val tvshow = LiveDataTestUtil.getValue(repository.getDetailTv(tvId))
+            val tvshow = LiveDataTestUtil.getValue(repository.getDetailTv("airing_today", tvId))
             verify(remote).getDetailTv(tvId)
             assertNotNull(tvshow)
-            assertEquals(tvResponse.results[0].name, tvshow.name)
+            assertEquals(airingToday[0].name, tvshow.data?.name)
         }
     }
 }
