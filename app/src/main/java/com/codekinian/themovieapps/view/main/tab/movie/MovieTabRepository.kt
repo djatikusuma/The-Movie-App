@@ -57,7 +57,8 @@ class MovieTabRepository private constructor(
                 when (category) {
                     "now_playing" -> theMovieDao.getNowPlayingById(movieId)
                     "upcoming" -> theMovieDao.getUpcomingById(movieId)
-                    else -> theMovieDao.getPopularMovieById(movieId)
+                    "popular" -> theMovieDao.getPopularMovieById(movieId)
+                    else -> theMovieDao.getMovieById(movieId)
                 }
             },
             networkCall = { remoteData.getDetailMovie(movieId) },

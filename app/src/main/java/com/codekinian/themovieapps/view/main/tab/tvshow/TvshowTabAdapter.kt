@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.codekinian.themovieapps.databinding.TvshowItemBinding
+import com.codekinian.themovieapps.model.data.Tvshow
 import com.codekinian.themovieapps.model.data.tvshows.AiringToday
 import com.codekinian.themovieapps.model.data.tvshows.OnTheAir
 import com.codekinian.themovieapps.model.data.tvshows.PopularTv
@@ -75,6 +76,22 @@ class TvshowTabAdapter<A>(
                 }
 
                 is PopularTv -> {
+                    view.titleTv.text = tv.name
+                    view.content.text =
+                        if (tv.overview?.length!! > 80) tv.overview.substring(0, 80) + "..."
+                        else tv.overview
+                    view.releaseDate.text = DateUtils.humanDate(tv.first_air_date)
+                    view.rating.text = tv.vote_average
+                    Helpers.loadImage(view.imageView, tv.poster_path)
+
+                    containerView?.context.let {
+                        containerView?.setOnClickListener {
+                            onClick(tv.id)
+                        }
+                    }
+                }
+
+                is Tvshow -> {
                     view.titleTv.text = tv.name
                     view.content.text =
                         if (tv.overview?.length!! > 80) tv.overview.substring(0, 80) + "..."

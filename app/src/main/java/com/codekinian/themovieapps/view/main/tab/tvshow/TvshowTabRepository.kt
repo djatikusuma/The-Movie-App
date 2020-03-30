@@ -57,7 +57,8 @@ class TvshowTabRepository private constructor(
                 when (category) {
                     "airing_today" -> theTvDao.getAiringTodayById(tvId)
                     "popular" -> theTvDao.getPopularTvById(tvId)
-                    else -> theTvDao.getOnTheAirById(tvId)
+                    "on_the_air" -> theTvDao.getOnTheAirById(tvId)
+                    else -> theTvDao.getTvShowById(tvId)
                 }
             },
             networkCall = { remoteData.getDetailTv(tvId) },

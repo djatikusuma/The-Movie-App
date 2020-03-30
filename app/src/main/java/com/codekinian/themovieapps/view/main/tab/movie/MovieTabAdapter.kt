@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.codekinian.themovieapps.databinding.MovieItemBinding
+import com.codekinian.themovieapps.model.data.Movie
 import com.codekinian.themovieapps.model.data.movies.NowPlaying
 import com.codekinian.themovieapps.model.data.movies.PopularMovie
 import com.codekinian.themovieapps.model.data.movies.Upcoming
@@ -74,6 +75,22 @@ class MovieTabAdapter<A>(
                 }
 
                 is Upcoming -> {
+                    view.titleMovie.text = movie.title
+                    view.content.text =
+                        if (movie.overview?.length!! > 80) movie.overview.substring(0, 80) + "..."
+                        else movie.overview
+                    view.releaseDate.text = DateUtils.humanDate(movie.release_date)
+                    view.rating.text = movie.vote_average
+                    Helpers.loadImage(view.imageView, movie.poster_path)
+
+                    containerView?.context.let {
+                        containerView?.setOnClickListener {
+                            onClick(movie.id)
+                        }
+                    }
+                }
+
+                is Movie -> {
                     view.titleMovie.text = movie.title
                     view.content.text =
                         if (movie.overview?.length!! > 80) movie.overview.substring(0, 80) + "..."
