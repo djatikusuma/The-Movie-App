@@ -15,24 +15,11 @@ import com.codekinian.themovieapps.view.main.tab.tvshow.TvshowTabAdapter
 import com.codekinian.themovieapps.view.main.tab.tvshow.TvshowTabViewModel
 import kotlinx.android.synthetic.main.movie_viewpager_fragment.progress_circular
 import kotlinx.android.synthetic.main.tvshow_viewpager_fragment.*
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AiringTodayFragment : Fragment() {
-    /*private val viewModel by lazy {
-        injectViewModel {
-            val remoteDataSource = TvshowRemoteDataSource.getInstance(BaseApi().api)
-            val theTvDao = TheMovieDatabase.getInstance(context!!).theTvDao()
-            TvshowTabViewModel(
-                TvshowTabRepository.getInstance(
-                    theTvDao, remoteDataSource, CoroutineScope(
-                        Dispatchers.IO
-                    )
-                )
-            )
-        }
-    }*/
 
-    private val viewModel: TvshowTabViewModel by inject()
+    private val viewModel by viewModel<TvshowTabViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -14,24 +14,11 @@ import com.codekinian.themovieapps.utils.Constant
 import com.codekinian.themovieapps.utils.hide
 import com.codekinian.themovieapps.utils.show
 import com.codekinian.themovieapps.utils.toast
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailTvshowActivity : AppCompatActivity() {
-    /*private val viewModel by lazy {
-        injectViewModel {
-            val remoteDataSource = TvshowRemoteDataSource.getInstance(BaseApi().api)
-            val theTvDao = TheMovieDatabase.getInstance(this).theTvDao()
-            DetailTvshowViewModel(
-                TvshowTabRepository.getInstance(
-                    theTvDao, remoteDataSource, CoroutineScope(
-                        Dispatchers.IO
-                    )
-                )
-            )
-        }
-    }*/
 
-    private val viewModel: DetailTvshowViewModel by inject()
+    private val viewModel by viewModel<DetailTvshowViewModel>()
 
     private val viewBinding by lazy {
         DataBindingUtil.setContentView<ActivityDetailTvshowBinding>(

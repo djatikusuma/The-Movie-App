@@ -15,24 +15,11 @@ import com.codekinian.themovieapps.utils.Constant.Companion.MOVIE_ID
 import com.codekinian.themovieapps.utils.hide
 import com.codekinian.themovieapps.utils.show
 import com.codekinian.themovieapps.utils.toast
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailMovieActivity : AppCompatActivity() {
-//    private val viewModel by lazy {
-//        injectViewModel {
-//            val remoteDataSource = MovieRemoteDataSource.getInstance(BaseApi().api)
-//            val theMovieDao = TheMovieDatabase.getInstance(this).theMovieDao()
-//            DetailMovieViewModel(
-//                MovieTabRepository.getInstance(
-//                    theMovieDao, remoteDataSource, CoroutineScope(
-//                        Dispatchers.IO
-//                    )
-//                )
-//            )
-//        }
-//    }
 
-    private val viewModel: DetailMovieViewModel by inject()
+    private val viewModel by viewModel<DetailMovieViewModel>()
 
     private val viewBinding by lazy {
         DataBindingUtil.setContentView<ActivityDetailMovieBinding>(

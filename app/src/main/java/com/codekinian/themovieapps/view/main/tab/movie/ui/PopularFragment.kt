@@ -17,19 +17,6 @@ import kotlinx.android.synthetic.main.movie_viewpager_fragment.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class PopularFragment : Fragment() {
-    /*private val viewModel by lazy {
-        injectViewModel {
-            val remoteDataSource = MovieRemoteDataSource.getInstance(BaseApi().api)
-            val theMovieDao = TheMovieDatabase.getInstance(context!!).theMovieDao()
-            MovieTabViewModel(
-                MovieTabRepository.getInstance(
-                    theMovieDao, remoteDataSource, CoroutineScope(
-                        Dispatchers.IO
-                    )
-                )
-            )
-        }
-    }*/
 
     private val viewModel by viewModel<MovieTabViewModel>()
 

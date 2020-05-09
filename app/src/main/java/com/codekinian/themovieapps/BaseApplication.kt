@@ -2,6 +2,7 @@ package com.codekinian.themovieapps
 
 import android.app.Application
 import com.codekinian.themovieapps.di.appModule
+import com.codekinian.themovieapps.di.databaseModule
 import com.codekinian.themovieapps.di.networkModule
 import com.codekinian.themovieapps.di.repositoryModule
 import org.koin.android.ext.koin.androidContext
@@ -18,7 +19,7 @@ class BaseApplication : Application() {
             // Android Context
             androidContext(this@BaseApplication)
             // modules
-            modules(listOf(appModule, repositoryModule, networkModule))
+            modules(listOf(appModule, repositoryModule, networkModule, databaseModule))
         }
     }
 }
