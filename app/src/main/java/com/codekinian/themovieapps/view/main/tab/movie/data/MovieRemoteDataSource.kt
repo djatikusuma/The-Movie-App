@@ -5,7 +5,7 @@ import com.codekinian.themovieapps.network.BaseDataSource
 
 class MovieRemoteDataSource(private val service: ApiRoute) : BaseDataSource() {
 
-    companion object {
+    /*companion object {
         @Volatile
         private var instance: MovieRemoteDataSource? = null
 
@@ -14,7 +14,7 @@ class MovieRemoteDataSource(private val service: ApiRoute) : BaseDataSource() {
                 instance
                     ?: MovieRemoteDataSource(service).also { instance = it }
             }
-    }
+    }*/
 
     suspend fun getNowPlaying(page: Int) = getResult { service.nowPlayingMovie(page) }
 

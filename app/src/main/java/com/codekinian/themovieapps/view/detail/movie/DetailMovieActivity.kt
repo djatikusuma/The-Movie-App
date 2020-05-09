@@ -10,33 +10,29 @@ import androidx.databinding.DataBindingUtil
 import com.codekinian.themovieapps.R
 import com.codekinian.themovieapps.databinding.ActivityDetailMovieBinding
 import com.codekinian.themovieapps.model.response.Result
-import com.codekinian.themovieapps.model.room.TheMovieDatabase
-import com.codekinian.themovieapps.network.BaseApi
 import com.codekinian.themovieapps.utils.Constant.Companion.MOVIE_CATEGORY
 import com.codekinian.themovieapps.utils.Constant.Companion.MOVIE_ID
 import com.codekinian.themovieapps.utils.hide
-import com.codekinian.themovieapps.utils.injectViewModel
 import com.codekinian.themovieapps.utils.show
 import com.codekinian.themovieapps.utils.toast
-import com.codekinian.themovieapps.view.main.tab.movie.MovieTabRepository
-import com.codekinian.themovieapps.view.main.tab.movie.data.MovieRemoteDataSource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import org.koin.android.ext.android.inject
 
 class DetailMovieActivity : AppCompatActivity() {
-    private val viewModel by lazy {
-        injectViewModel {
-            val remoteDataSource = MovieRemoteDataSource.getInstance(BaseApi().api)
-            val theMovieDao = TheMovieDatabase.getInstance(this).theMovieDao()
-            DetailMovieViewModel(
-                MovieTabRepository.getInstance(
-                    theMovieDao, remoteDataSource, CoroutineScope(
-                        Dispatchers.IO
-                    )
-                )
-            )
-        }
-    }
+//    private val viewModel by lazy {
+//        injectViewModel {
+//            val remoteDataSource = MovieRemoteDataSource.getInstance(BaseApi().api)
+//            val theMovieDao = TheMovieDatabase.getInstance(this).theMovieDao()
+//            DetailMovieViewModel(
+//                MovieTabRepository.getInstance(
+//                    theMovieDao, remoteDataSource, CoroutineScope(
+//                        Dispatchers.IO
+//                    )
+//                )
+//            )
+//        }
+//    }
+
+    private val viewModel: DetailMovieViewModel by inject()
 
     private val viewBinding by lazy {
         DataBindingUtil.setContentView<ActivityDetailMovieBinding>(

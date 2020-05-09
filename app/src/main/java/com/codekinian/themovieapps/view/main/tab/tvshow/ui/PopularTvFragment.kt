@@ -9,21 +9,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.codekinian.themovieapps.R
 import com.codekinian.themovieapps.model.data.tvshows.PopularTv
 import com.codekinian.themovieapps.model.response.Result
-import com.codekinian.themovieapps.model.room.TheMovieDatabase
-import com.codekinian.themovieapps.network.BaseApi
 import com.codekinian.themovieapps.utils.*
 import com.codekinian.themovieapps.view.detail.tvshow.DetailTvshowActivity
 import com.codekinian.themovieapps.view.main.tab.tvshow.TvshowTabAdapter
-import com.codekinian.themovieapps.view.main.tab.tvshow.TvshowTabRepository
 import com.codekinian.themovieapps.view.main.tab.tvshow.TvshowTabViewModel
-import com.codekinian.themovieapps.view.main.tab.tvshow.data.TvshowRemoteDataSource
 import kotlinx.android.synthetic.main.movie_viewpager_fragment.progress_circular
 import kotlinx.android.synthetic.main.tvshow_viewpager_fragment.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import org.koin.android.ext.android.inject
 
 class PopularTvFragment : Fragment() {
-    private val viewModel by lazy {
+    /*private val viewModel by lazy {
         injectViewModel {
             val remoteDataSource = TvshowRemoteDataSource.getInstance(BaseApi().api)
             val theTvDao = TheMovieDatabase.getInstance(context!!).theTvDao()
@@ -35,7 +30,9 @@ class PopularTvFragment : Fragment() {
                 )
             )
         }
-    }
+    }*/
+
+    private val viewModel: TvshowTabViewModel by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

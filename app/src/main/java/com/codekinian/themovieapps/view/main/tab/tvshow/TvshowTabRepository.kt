@@ -13,15 +13,15 @@ import com.codekinian.themovieapps.utils.liveDataResult
 import com.codekinian.themovieapps.view.main.tab.tvshow.data.TvshowDataSource
 import com.codekinian.themovieapps.view.main.tab.tvshow.data.TvshowRemoteDataSource
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class TvshowTabRepository private constructor(
+class TvshowTabRepository(
     private val theTvDao: TheTvDao,
-    private val remoteData: TvshowRemoteDataSource,
-    private val scope: CoroutineScope
+    private val remoteData: TvshowRemoteDataSource
 ) : TvshowDataSource {
 
-    companion object {
+    /*companion object {
         @Volatile
         private var instance: TvshowTabRepository? = null
 
@@ -33,6 +33,10 @@ class TvshowTabRepository private constructor(
             instance ?: synchronized(this) {
                 instance ?: TvshowTabRepository(theTvDao, remoteData, scope)
             }
+    }*/
+
+    private val scope by lazy {
+        CoroutineScope(Dispatchers.IO)
     }
 
     override fun getAiringToday(): LiveData<Result<PagedList<AiringToday>>> = liveDataResult(

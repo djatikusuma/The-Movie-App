@@ -13,15 +13,19 @@ import com.codekinian.themovieapps.utils.liveDataResult
 import com.codekinian.themovieapps.view.main.tab.movie.data.MovieDataSource
 import com.codekinian.themovieapps.view.main.tab.movie.data.MovieRemoteDataSource
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MovieTabRepository private constructor(
+class MovieTabRepository(
     private val theMovieDao: TheMovieDao,
-    private val remoteData: MovieRemoteDataSource,
-    private val scope: CoroutineScope
+    private val remoteData: MovieRemoteDataSource
 ) : MovieDataSource {
 
-    companion object {
+    private val scope by lazy {
+        CoroutineScope(Dispatchers.IO)
+    }
+
+    /*companion object {
         @Volatile
         private var instance: MovieTabRepository? = null
 
@@ -33,7 +37,7 @@ class MovieTabRepository private constructor(
             instance ?: synchronized(this) {
                 instance ?: MovieTabRepository(theMovieDao, remoteData, scope)
             }
-    }
+    }*/
 
     override fun getNowPlaying(): LiveData<Result<PagedList<NowPlaying>>> = liveDataResult(
         databaseQuery = {

@@ -9,16 +9,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.codekinian.themovieapps.R
 import com.codekinian.themovieapps.model.data.Movie
 import com.codekinian.themovieapps.model.response.Result
-import com.codekinian.themovieapps.model.room.TheMovieDatabase
 import com.codekinian.themovieapps.utils.*
 import com.codekinian.themovieapps.view.detail.movie.DetailMovieActivity
-import com.codekinian.themovieapps.view.main.tab.favorite.FavoriteTabRepository
 import com.codekinian.themovieapps.view.main.tab.favorite.FavoriteTabViewModel
 import com.codekinian.themovieapps.view.main.tab.movie.MovieTabAdapter
 import kotlinx.android.synthetic.main.movie_viewpager_fragment.*
+import org.koin.android.ext.android.inject
 
 class MovieFragment : Fragment() {
-    private val viewModel by lazy {
+    /*private val viewModel by lazy {
         injectViewModel {
             val theMovieDatabase = TheMovieDatabase.getInstance(context!!)
             FavoriteTabViewModel(
@@ -27,7 +26,9 @@ class MovieFragment : Fragment() {
                 )
             )
         }
-    }
+    }*/
+
+    private val viewModel: FavoriteTabViewModel by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

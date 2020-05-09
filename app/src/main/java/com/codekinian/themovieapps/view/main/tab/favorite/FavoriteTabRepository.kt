@@ -13,11 +13,11 @@ import com.codekinian.themovieapps.utils.EspressoIdlingResource
 import com.codekinian.themovieapps.view.main.tab.favorite.data.FavoriteDataSource
 import kotlinx.coroutines.Dispatchers
 
-class FavoriteTabRepository private constructor(
+class FavoriteTabRepository(
     private val theMovieDatabase: TheMovieDatabase
 ) : FavoriteDataSource {
 
-    companion object {
+    /*companion object {
         @Volatile
         private var instance: FavoriteTabRepository? = null
 
@@ -27,7 +27,7 @@ class FavoriteTabRepository private constructor(
             instance ?: synchronized(this) {
                 instance ?: FavoriteTabRepository(theMovieDatabase)
             }
-    }
+    }*/
 
     private val theMovieDao by lazy {
         theMovieDatabase.theMovieDao()

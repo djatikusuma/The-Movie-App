@@ -10,16 +10,14 @@ import androidx.databinding.DataBindingUtil
 import com.codekinian.themovieapps.R
 import com.codekinian.themovieapps.databinding.ActivityDetailTvshowBinding
 import com.codekinian.themovieapps.model.response.Result
-import com.codekinian.themovieapps.model.room.TheMovieDatabase
-import com.codekinian.themovieapps.network.BaseApi
-import com.codekinian.themovieapps.utils.*
-import com.codekinian.themovieapps.view.main.tab.tvshow.TvshowTabRepository
-import com.codekinian.themovieapps.view.main.tab.tvshow.data.TvshowRemoteDataSource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.codekinian.themovieapps.utils.Constant
+import com.codekinian.themovieapps.utils.hide
+import com.codekinian.themovieapps.utils.show
+import com.codekinian.themovieapps.utils.toast
+import org.koin.android.ext.android.inject
 
 class DetailTvshowActivity : AppCompatActivity() {
-    private val viewModel by lazy {
+    /*private val viewModel by lazy {
         injectViewModel {
             val remoteDataSource = TvshowRemoteDataSource.getInstance(BaseApi().api)
             val theTvDao = TheMovieDatabase.getInstance(this).theTvDao()
@@ -31,7 +29,9 @@ class DetailTvshowActivity : AppCompatActivity() {
                 )
             )
         }
-    }
+    }*/
+
+    private val viewModel: DetailTvshowViewModel by inject()
 
     private val viewBinding by lazy {
         DataBindingUtil.setContentView<ActivityDetailTvshowBinding>(

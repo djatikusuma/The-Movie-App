@@ -83,6 +83,7 @@ dependencies {
     //room component
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
+    annotationProcessor "androidx.room:room-compiler:$roomVersion"
     androidTestImplementation "androidx.room:room-testing:$roomVersion"
 
     //ui
@@ -102,6 +103,14 @@ dependencies {
 
     // Pagging Component
     implementation "androidx.paging:paging-runtime:$pagingVersion"
+
+    //koin
+    // Koin for Android
+    implementation "org.koin:koin-android:2.0.1"
+    // Koin Android ViewModel features
+    implementation "org.koin:koin-androidx-viewmodel:2.0.1"
+    // Koin Android Experimental features
+    implementation "org.koin:koin-android-ext:2.0.1"
 
     //testing
     implementation 'androidx.appcompat:appcompat:1.1.0'

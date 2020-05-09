@@ -9,20 +9,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.codekinian.themovieapps.R
 import com.codekinian.themovieapps.model.data.movies.PopularMovie
 import com.codekinian.themovieapps.model.response.Result
-import com.codekinian.themovieapps.model.room.TheMovieDatabase
-import com.codekinian.themovieapps.network.BaseApi
 import com.codekinian.themovieapps.utils.*
 import com.codekinian.themovieapps.view.detail.movie.DetailMovieActivity
 import com.codekinian.themovieapps.view.main.tab.movie.MovieTabAdapter
-import com.codekinian.themovieapps.view.main.tab.movie.MovieTabRepository
 import com.codekinian.themovieapps.view.main.tab.movie.MovieTabViewModel
-import com.codekinian.themovieapps.view.main.tab.movie.data.MovieRemoteDataSource
 import kotlinx.android.synthetic.main.movie_viewpager_fragment.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class PopularFragment : Fragment() {
-    private val viewModel by lazy {
+    /*private val viewModel by lazy {
         injectViewModel {
             val remoteDataSource = MovieRemoteDataSource.getInstance(BaseApi().api)
             val theMovieDao = TheMovieDatabase.getInstance(context!!).theMovieDao()
@@ -34,7 +29,9 @@ class PopularFragment : Fragment() {
                 )
             )
         }
-    }
+    }*/
+
+    private val viewModel by viewModel<MovieTabViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -1,8 +1,6 @@
 package com.codekinian.themovieapps.model.room
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.codekinian.themovieapps.model.data.Movie
 import com.codekinian.themovieapps.model.data.Tvshow
@@ -24,7 +22,7 @@ abstract class TheMovieDatabase : RoomDatabase() {
     abstract fun theMovieDao(): TheMovieDao
     abstract fun theTvDao(): TheTvDao
 
-    companion object {
+    /*companion object {
 
         @Volatile
         private var INSTANCE: TheMovieDatabase? = null
@@ -37,5 +35,5 @@ abstract class TheMovieDatabase : RoomDatabase() {
                     "AppMovieDatabaseTwo.db"
                 ).build()
             }
-    }
+    }*/
 }
