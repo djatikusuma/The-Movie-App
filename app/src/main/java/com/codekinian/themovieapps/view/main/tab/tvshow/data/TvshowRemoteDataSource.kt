@@ -5,7 +5,7 @@ import com.codekinian.themovieapps.network.BaseDataSource
 
 class TvshowRemoteDataSource(private val service: ApiRoute) : BaseDataSource() {
 
-    companion object {
+    /*companion object {
         @Volatile
         private var instance: TvshowRemoteDataSource? = null
 
@@ -14,7 +14,7 @@ class TvshowRemoteDataSource(private val service: ApiRoute) : BaseDataSource() {
                 instance
                     ?: TvshowRemoteDataSource(service).also { instance = it }
             }
-    }
+    }*/
 
     suspend fun getAiringToday() = getResult { service.airingToday() }
 

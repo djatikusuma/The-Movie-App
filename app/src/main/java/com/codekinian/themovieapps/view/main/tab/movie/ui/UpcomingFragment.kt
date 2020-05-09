@@ -7,30 +7,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.codekinian.themovieapps.R
-import com.codekinian.themovieapps.network.BaseApi
+import com.codekinian.themovieapps.model.data.movies.Upcoming
+import com.codekinian.themovieapps.model.response.Result
 import com.codekinian.themovieapps.utils.*
 import com.codekinian.themovieapps.view.detail.movie.DetailMovieActivity
 import com.codekinian.themovieapps.view.main.tab.movie.MovieTabAdapter
-import com.codekinian.themovieapps.view.main.tab.movie.MovieTabRepository
 import com.codekinian.themovieapps.view.main.tab.movie.MovieTabViewModel
-import com.codekinian.themovieapps.view.main.tab.movie.data.MovieRemoteDataSource
 import kotlinx.android.synthetic.main.movie_viewpager_fragment.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class UpcomingFragment : Fragment() {
-    private val viewModel by lazy {
-        injectViewModel {
-            val remoteDataSource = MovieRemoteDataSource.getInstance(BaseApi().api)
-            MovieTabViewModel(
-                MovieTabRepository.getInstance(
-                    remoteDataSource, CoroutineScope(
-                        Dispatchers.IO
-                    )
-                )
-            )
-        }
-    }
+
+    private val viewModel by viewModel<MovieTabViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,16 +29,33 @@ class UpcomingFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val adapterMovies = MovieTabAdapter {
+        val adapterMovies = MovieTabAdapter<Upcoming> {
             context?.launchActivity<DetailMovieActivity> {
                 putExtra(Constant.MOVIE_ID, it)
+                putExtra(Constant.MOVIE_CATEGORY, "upcoming")
             }
         }
 
         progress_circular.show()
-        viewModel.upcoming.observeForever { movies ->
-            progress_circular.hide()
-            adapterMovies.updateData(movies.results)
+        viewModel.upcoming.observeForever { result ->
+            when (result.status) {
+                Result.Status.SUCCESS -> {
+                    progress_circular?.let {
+                        progress_circular.hide()
+                    }
+                    adapterMovies.submitList(result.data)
+                    adapterMovies.notifyDataSetChanged()
+                }
+                Result.Status.ERROR -> {
+                    progress_circular?.let {
+                        progress_circular.hide()
+                    }
+                    activity?.toast("Gagal memuat data!")
+                }
+                Result.Status.LOADING -> {
+                    progress_circular.show()
+                }
+            }
         }
 
         with(rv_movies) {

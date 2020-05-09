@@ -35,6 +35,7 @@ ext {
     coreVersion = '1.2.0'
     constraintLayoutVersion = '1.1.3'
     junitVersion = '4.12'
+    roomVersion = '2.2.5'
     espressoVersion = '3.1.0'
     mockitoVersion = '2.23.4'
     mockitoKotlinVersion = '2.1.0'
@@ -44,7 +45,8 @@ ext {
     navigationVersion = '2.2.1'
     materialVersion = '1.1.0'
     recyclerViewVersion = '1.1.0'
-    glideVersion = '4.10.0'
+    glideVersion = '4.11.0'
     retrofitVersion = '2.6.1'
     okhttp3Version = '3.14.1'
+    pagingVersion = '2.1.2'
 }

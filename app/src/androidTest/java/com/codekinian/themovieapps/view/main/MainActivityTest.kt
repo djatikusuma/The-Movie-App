@@ -18,8 +18,8 @@ import org.junit.Rule
 import org.junit.Test
 
 class MainActivityTest {
-    private val dummyMovie = DataDummy.generateDummyMovies().results
-    private val dummyTv = DataDummy.generateDummyTvshows().results
+    private val dummyMovie = DataDummy.generateDummyNowPlaying()
+    private val dummyTv = DataDummy.generateDummyNowPlaying()
 
     @get:Rule
     var activtiyRule = ActivityTestRule(MainActivity::class.java)
@@ -36,8 +36,8 @@ class MainActivityTest {
 
     @Test
     fun canLoadDataAndScrollDataMoviesInMovieTab() {
-        onView(allOf(withId(R.id.rv_movies), isDisplayed()))
-        onView(allOf(withId(R.id.rv_movies), isDisplayed())).perform(
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed())).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
                 dummyMovie.size
             )
@@ -46,9 +46,9 @@ class MainActivityTest {
 
     @Test
     fun canLoadDataAndScrollDataMoviesInPopularMovieTab() {
-        onView(withText("POPULAR")).perform(click())
-        onView(allOf(withId(R.id.rv_movies), isDisplayed()))
-        onView(allOf(withId(R.id.rv_movies), isDisplayed())).perform(
+        onView(withText("POPULAR")).check(matches(isCompletelyDisplayed())).perform(click())
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed())).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
                 dummyMovie.size
             )
@@ -57,23 +57,39 @@ class MainActivityTest {
 
     @Test
     fun canOpenDetailWhenClickCardInListPopularMovies() {
-        onView(withText("POPULAR")).perform(click())
-        onView(allOf(withId(R.id.rv_movies), isDisplayed()))
-        onView(allOf(withId(R.id.rv_movies), isDisplayed())).perform(
+        onView(withText("POPULAR")).check(matches(isCompletelyDisplayed())).perform(click())
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed())).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                 5,
                 click()
             )
         )
-        onView(withId(R.id.title_movie)).check(matches(isDisplayed()))
-        onView(withId(R.id.description_movie)).check(matches(isDisplayed()))
+        onView(withId(R.id.title_movie)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.description_movie)).check(matches(isCompletelyDisplayed()))
+    }
+
+    @Test
+    fun canOpenDetailAndClickFavoriteWhenClickCardInListPopularMovies() {
+        onView(withText("POPULAR")).check(matches(isCompletelyDisplayed())).perform(click())
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed())).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                5,
+                click()
+            )
+        )
+        onView(withId(R.id.title_movie)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.description_movie)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.action_favorite)).check(matches(isCompletelyDisplayed()))
+            .perform(click())
     }
 
     @Test
     fun canLoadDataAndScrollDataMoviesInUpcomingMovieTab() {
-        onView(withText("UPCOMING")).perform(click())
-        onView(allOf(withId(R.id.rv_movies), isDisplayed()))
-        onView(allOf(withId(R.id.rv_movies), isDisplayed())).perform(
+        onView(withText("UPCOMING")).check(matches(isCompletelyDisplayed())).perform(click())
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed())).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
                 dummyMovie.size
             )
@@ -82,36 +98,69 @@ class MainActivityTest {
 
     @Test
     fun canOpenDetailWhenClickCardInListUpcomingMovies() {
-        onView(withText("UPCOMING")).perform(click())
-        onView(allOf(withId(R.id.rv_movies), isDisplayed()))
-        onView(allOf(withId(R.id.rv_movies), isDisplayed())).perform(
+        onView(withText("UPCOMING")).check(matches(isCompletelyDisplayed())).perform(click())
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed())).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                 7,
                 click()
             )
         )
-        onView(withId(R.id.title_movie)).check(matches(isDisplayed()))
-        onView(withId(R.id.description_movie)).check(matches(isDisplayed()))
+        onView(withId(R.id.title_movie)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.description_movie)).check(matches(isCompletelyDisplayed()))
+    }
+
+    @Test
+    fun canOpenDetailAndClickFavoriteWhenClickCardInListUpcomingMovies() {
+        onView(withText("UPCOMING")).check(matches(isCompletelyDisplayed())).perform(click())
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed())).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                7,
+                click()
+            )
+        )
+        onView(withId(R.id.title_movie)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.description_movie)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.action_favorite)).check(matches(isCompletelyDisplayed()))
+            .perform(click())
     }
 
     @Test
     fun canOpenDetailWhenClickCardInListNowPlayingMovies() {
-        onView(allOf(withId(R.id.rv_movies), isDisplayed()))
-        onView(allOf(withId(R.id.rv_movies), isDisplayed())).perform(
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed())).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                 2,
                 click()
             )
         )
-        onView(withId(R.id.title_movie)).check(matches(isDisplayed()))
-        onView(withId(R.id.description_movie)).check(matches(isDisplayed()))
+        onView(withId(R.id.title_movie)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.description_movie)).check(matches(isCompletelyDisplayed()))
     }
+
+    @Test
+    fun canOpenDetailAndClickFavoriteWhenClickCardInListNowPlayingMovies() {
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed())).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                2,
+                click()
+            )
+        )
+        onView(withId(R.id.title_movie)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.description_movie)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.action_favorite)).check(matches(isCompletelyDisplayed()))
+            .perform(click())
+    }
+
+    // Tvshow
 
     @Test
     fun canLoadDataAndScrollDataTvInTvshowsTab() {
         onView(allOf(withId(R.id.navigation_tvshow))).perform(click())
-        onView(allOf(withId(R.id.rv_tvshow), isDisplayed()))
-        onView(allOf(withId(R.id.rv_tvshow), isDisplayed())).perform(
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed())).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
                 dummyTv.size
             )
@@ -121,9 +170,9 @@ class MainActivityTest {
     @Test
     fun canLoadDataAndScrollDataTvInOnTheAirTvshowTab() {
         onView(allOf(withId(R.id.navigation_tvshow))).perform(click())
-        onView(withText("ON THE AIR")).perform(click())
-        onView(allOf(withId(R.id.rv_tvshow), isDisplayed()))
-        onView(allOf(withId(R.id.rv_tvshow), isDisplayed())).perform(
+        onView(withText("ON THE AIR")).check(matches(isCompletelyDisplayed())).perform(click())
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed())).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
                 dummyTv.size
             )
@@ -133,24 +182,41 @@ class MainActivityTest {
     @Test
     fun canOpenDetailWhenClickCardInListOnTheAirTvShows() {
         onView(allOf(withId(R.id.navigation_tvshow))).perform(click())
-        onView(withText("ON THE AIR")).perform(click())
-        onView(allOf(withId(R.id.rv_tvshow), isDisplayed()))
-        onView(allOf(withId(R.id.rv_tvshow), isDisplayed())).perform(
+        onView(withText("ON THE AIR")).check(matches(isCompletelyDisplayed())).perform(click())
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed())).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                 5,
                 click()
             )
         )
-        onView(withId(R.id.title_tv)).check(matches(isDisplayed()))
-        onView(withId(R.id.description_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.title_tv)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.description_tv)).check(matches(isCompletelyDisplayed()))
+    }
+
+    @Test
+    fun canOpenDetailAndClickFavoriteWhenClickCardInListOnTheAirTvShows() {
+        onView(allOf(withId(R.id.navigation_tvshow))).perform(click())
+        onView(withText("ON THE AIR")).check(matches(isCompletelyDisplayed())).perform(click())
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed())).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                5,
+                click()
+            )
+        )
+        onView(withId(R.id.title_tv)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.description_tv)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.action_favorite)).check(matches(isCompletelyDisplayed()))
+            .perform(click())
     }
 
     @Test
     fun canLoadDataAndScrollDataTvInPopularTvshowTab() {
         onView(allOf(withId(R.id.navigation_tvshow))).perform(click())
-        onView(withText("POPULAR")).perform(click())
-        onView(allOf(withId(R.id.rv_tvshow), isDisplayed()))
-        onView(allOf(withId(R.id.rv_tvshow), isDisplayed())).perform(
+        onView(withText("POPULAR")).check(matches(isCompletelyDisplayed())).perform(click())
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed())).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
                 dummyTv.size
             )
@@ -160,31 +226,139 @@ class MainActivityTest {
     @Test
     fun canOpenDetailWhenClickCardInListPopularTvShows() {
         onView(allOf(withId(R.id.navigation_tvshow))).perform(click())
-        onView(withText("POPULAR")).perform(click())
-        onView(allOf(withId(R.id.rv_tvshow), isDisplayed()))
-        onView(allOf(withId(R.id.rv_tvshow), isDisplayed())).perform(
+        onView(withText("POPULAR")).check(matches(isCompletelyDisplayed())).perform(click())
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed())).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                 5,
                 click()
             )
         )
-        onView(withId(R.id.title_tv)).check(matches(isDisplayed()))
-        onView(withId(R.id.description_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.title_tv)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.description_tv)).check(matches(isCompletelyDisplayed()))
+    }
+
+    @Test
+    fun canOpenDetailAndClickFavoriteWhenClickCardInListPopularTvShows() {
+        onView(allOf(withId(R.id.navigation_tvshow))).perform(click())
+        onView(withText("POPULAR")).check(matches(isCompletelyDisplayed())).perform(click())
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed())).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                5,
+                click()
+            )
+        )
+        onView(withId(R.id.title_tv)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.description_tv)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.action_favorite)).check(matches(isCompletelyDisplayed()))
+            .perform(click())
     }
 
 
     @Test
     fun canOpenDetailWhenClickCardInListAiringTodayTvshows() {
         onView(allOf(withId(R.id.navigation_tvshow))).perform(click())
-        onView(allOf(withId(R.id.rv_tvshow), isDisplayed()))
-        onView(allOf(withId(R.id.rv_tvshow), isDisplayed())).perform(
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed())).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                 2,
                 click()
             )
         )
-        onView(withId(R.id.title_tv)).check(matches(isDisplayed()))
-        onView(withId(R.id.description_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.title_tv)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.description_tv)).check(matches(isCompletelyDisplayed()))
     }
 
+    @Test
+    fun canOpenDetailAndClickFavoriteWhenClickCardInListAiringTodayTvshows() {
+        onView(allOf(withId(R.id.navigation_tvshow))).perform(click())
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed())).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                2,
+                click()
+            )
+        )
+        onView(withId(R.id.title_tv)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.description_tv)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.action_favorite)).check(matches(isCompletelyDisplayed()))
+            .perform(click())
+    }
+
+    // Favorite
+    @Test
+    fun canLoadDataFavoriteMovie() {
+        onView(allOf(withId(R.id.navigation_favorite))).perform(click())
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed()))
+    }
+
+    @Test
+    fun canOpenDetailDataFavoriteMovie() {
+        onView(allOf(withId(R.id.navigation_favorite))).perform(click())
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed())).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+        onView(withId(R.id.title_movie)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.description_movie)).check(matches(isCompletelyDisplayed()))
+    }
+
+    @Test
+    fun canClickFavoriteDataFavoriteMovie() {
+        onView(allOf(withId(R.id.navigation_favorite))).perform(click())
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_movies), isCompletelyDisplayed())).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+        onView(withId(R.id.title_movie)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.description_movie)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.action_favorite)).check(matches(isCompletelyDisplayed()))
+            .perform(click())
+    }
+
+    @Test
+    fun canLoadDataFavoriteTv() {
+        onView(allOf(withId(R.id.navigation_favorite))).perform(click())
+        onView(withText("TV SHOWS")).check(matches(isCompletelyDisplayed())).perform(click())
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed()))
+    }
+
+    @Test
+    fun canOpenDetailDataFavoriteTv() {
+        onView(allOf(withId(R.id.navigation_favorite))).perform(click())
+        onView(withText("TV SHOWS")).check(matches(isCompletelyDisplayed())).perform(click())
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed())).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+        onView(withId(R.id.title_tv)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.description_tv)).check(matches(isCompletelyDisplayed()))
+    }
+
+    @Test
+    fun canClickFavoriteDataFavoriteTv() {
+        onView(allOf(withId(R.id.navigation_favorite))).perform(click())
+        onView(withText("TV SHOWS")).check(matches(isCompletelyDisplayed())).perform(click())
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed()))
+        onView(allOf(withId(R.id.rv_tvshow), isCompletelyDisplayed())).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+        onView(withId(R.id.title_tv)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.description_tv)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.action_favorite)).check(matches(isCompletelyDisplayed()))
+            .perform(click())
+    }
 }

@@ -11,4 +11,9 @@
         android:icon="@drawable/tv"
         android:title="@string/label_tvshows" />
 
+    <item
+        android:id="@+id/navigation_favorite"
+        android:icon="@drawable/star"
+        android:title="@string/favorite" />
+
 </menu>
